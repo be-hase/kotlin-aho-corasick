@@ -59,7 +59,7 @@ kotlin-aho-corasick is a Kotlin Multiplatform implementation of the Aho-Corasick
 ## Testing Conventions
 
 - kotlin-test only (no assertk/MockK — they are not available on every KMP target).
-- All tests live in `commonTest` so they run on every platform; this is what pins down that matching and case folding (`Char.lowercaseChar` tables) behave identically across platforms.
+- All tests live in `commonTest` so they run on every platform; this is what pins down that matching and case folding (`Char.lowercaseChar` tables) behave identically across platforms. The one exception is `jvmTest`'s `ConcurrencyTest`, which needs real threads (`java.util.concurrent`) to exercise the concurrent-read guarantee.
 - Lone surrogates must be built at runtime (`Char(0xD83D).toString()`) — the Kotlin/JS compiler can mangle lone-surrogate string literals. The ZWJ and combining characters are written as `\uXXXX` escapes so the tested code points are unambiguous in the source.
 - `StressTest` cross-checks against a brute-force oracle and exercises a 10,000-node-deep trie (everything must stay iterative; deep recursion crashes Kotlin/Native).
 
