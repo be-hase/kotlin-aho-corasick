@@ -1,0 +1,23 @@
+[versions]
+detekt = "1.23.8"
+kotlin-core = "2.4.10"
+kotlinx-benchmark = "0.4.17"
+kover = "0.9.9"
+ktlint = "1.8.0"
+
+[libraries]
+kotlinx-benchmark-runtime = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-runtime", version.ref = "kotlinx-benchmark" }
+regexp-trie = { module = "dev.hsbrysk:regexp-trie", version = "0.0.1" }
+
+# gradle plugins for build-logic
+gradle-plugin-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+gradle-plugin-dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version = "2.2.0" }
+gradle-plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-core" }
+gradle-plugin-kover = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
+gradle-plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version = "14.2.0" }
+gradle-plugin-maven-publish = { module = "com.vanniktech:gradle-maven-publish-plugin", version = "0.37.0" }
+
+[plugins]
+kotlin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin-core" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin-core" }
+kotlinx-benchmark = { id = "org.jetbrains.kotlinx.benchmark", version.ref = "kotlinx-benchmark" }

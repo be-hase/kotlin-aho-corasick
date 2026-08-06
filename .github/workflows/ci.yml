@@ -1,0 +1,94 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up JDK
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Set up gradle
+        uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+      # On a Linux host, Apple targets are skipped automatically; this runs the JVM/JS/Wasm/Linux
+      # tests, compiles the remaining targets, and runs ktlint, detekt and the ABI check.
+      - name: Check
+        run: ./gradlew check detekt :koverXmlReport :dokkaGeneratePublicationHtml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: build/reports/kover/report.xml
+          disable_search: true
+          fail_ci_if_error: false
+
+  check-macos:
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up JDK
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Set up gradle
+        uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+      # Apple targets can only be tested on a macOS host; the rest is covered by the Linux job.
+      - name: Test Apple targets
+        run: ./gradlew macosArm64Test iosSimulatorArm64Test tvosSimulatorArm64Test watchosSimulatorArm64Test
+
+  check-windows:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up JDK
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Set up gradle
+        uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+      # mingwX64 tests only run on a Windows host.
+      - name: Test Windows targets
+        run: ./gradlew mingwX64Test jvmTest
+
+  report-gradle-dependency-diff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    if: github.event_name == 'pull_request'
+    # gradle-dependency-diff-action reports via GitHub Checks and a PR comment/label
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up JDK
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Report gradle dependencies diff
+        uses: be-hase/gradle-dependency-diff-action@b371bc71a47779fea4ca94a39a3c968137057d6b # v2.0.1
