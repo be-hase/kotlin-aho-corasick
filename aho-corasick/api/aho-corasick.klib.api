@@ -1,0 +1,60 @@
+// Klib ABI Dump
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, wasmJs, wasmWasi, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <dev.hsbrysk:aho-corasick>
+final enum class dev.hsbrysk.ahocorasick/CaseFolding : kotlin/Enum<dev.hsbrysk.ahocorasick/CaseFolding> { // dev.hsbrysk.ahocorasick/CaseFolding|null[0]
+    enum entry ASCII // dev.hsbrysk.ahocorasick/CaseFolding.ASCII|null[0]
+    enum entry NONE // dev.hsbrysk.ahocorasick/CaseFolding.NONE|null[0]
+    enum entry UNICODE_SIMPLE // dev.hsbrysk.ahocorasick/CaseFolding.UNICODE_SIMPLE|null[0]
+
+    final val entries // dev.hsbrysk.ahocorasick/CaseFolding.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<dev.hsbrysk.ahocorasick/CaseFolding> // dev.hsbrysk.ahocorasick/CaseFolding.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): dev.hsbrysk.ahocorasick/CaseFolding // dev.hsbrysk.ahocorasick/CaseFolding.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<dev.hsbrysk.ahocorasick/CaseFolding> // dev.hsbrysk.ahocorasick/CaseFolding.values|values#static(){}[0]
+}
+
+final class dev.hsbrysk.ahocorasick/AhoCorasick { // dev.hsbrysk.ahocorasick/AhoCorasick|null[0]
+    constructor <init>(kotlin.collections/Iterable<kotlin/String>, dev.hsbrysk.ahocorasick/CaseFolding = ...) // dev.hsbrysk.ahocorasick/AhoCorasick.<init>|<init>(kotlin.collections.Iterable<kotlin.String>;dev.hsbrysk.ahocorasick.CaseFolding){}[0]
+    constructor <init>(kotlin/Array<out kotlin/String>...) // dev.hsbrysk.ahocorasick/AhoCorasick.<init>|<init>(kotlin.Array<out|kotlin.String>...){}[0]
+
+    final fun containsAny(kotlin/String): kotlin/Boolean // dev.hsbrysk.ahocorasick/AhoCorasick.containsAny|containsAny(kotlin.String){}[0]
+    final fun findAll(kotlin/String): kotlin.collections/List<dev.hsbrysk.ahocorasick/Match> // dev.hsbrysk.ahocorasick/AhoCorasick.findAll|findAll(kotlin.String){}[0]
+    final fun findOverlapping(kotlin/String): kotlin.collections/List<dev.hsbrysk.ahocorasick/Match> // dev.hsbrysk.ahocorasick/AhoCorasick.findOverlapping|findOverlapping(kotlin.String){}[0]
+    final fun toString(): kotlin/String // dev.hsbrysk.ahocorasick/AhoCorasick.toString|toString(){}[0]
+
+    final class Builder { // dev.hsbrysk.ahocorasick/AhoCorasick.Builder|null[0]
+        constructor <init>() // dev.hsbrysk.ahocorasick/AhoCorasick.Builder.<init>|<init>(){}[0]
+
+        final var caseFolding // dev.hsbrysk.ahocorasick/AhoCorasick.Builder.caseFolding|{}caseFolding[0]
+            final fun <get-caseFolding>(): dev.hsbrysk.ahocorasick/CaseFolding // dev.hsbrysk.ahocorasick/AhoCorasick.Builder.caseFolding.<get-caseFolding>|<get-caseFolding>(){}[0]
+            final fun <set-caseFolding>(dev.hsbrysk.ahocorasick/CaseFolding) // dev.hsbrysk.ahocorasick/AhoCorasick.Builder.caseFolding.<set-caseFolding>|<set-caseFolding>(dev.hsbrysk.ahocorasick.CaseFolding){}[0]
+
+        final fun (kotlin/String).unaryPlus() // dev.hsbrysk.ahocorasick/AhoCorasick.Builder.unaryPlus|unaryPlus@kotlin.String(){}[0]
+        final fun add(kotlin/String): dev.hsbrysk.ahocorasick/AhoCorasick.Builder // dev.hsbrysk.ahocorasick/AhoCorasick.Builder.add|add(kotlin.String){}[0]
+        final fun addAll(kotlin.collections/Iterable<kotlin/String>): dev.hsbrysk.ahocorasick/AhoCorasick.Builder // dev.hsbrysk.ahocorasick/AhoCorasick.Builder.addAll|addAll(kotlin.collections.Iterable<kotlin.String>){}[0]
+        final fun build(): dev.hsbrysk.ahocorasick/AhoCorasick // dev.hsbrysk.ahocorasick/AhoCorasick.Builder.build|build(){}[0]
+    }
+}
+
+final class dev.hsbrysk.ahocorasick/Match { // dev.hsbrysk.ahocorasick/Match|null[0]
+    constructor <init>(kotlin/String, kotlin.ranges/IntRange) // dev.hsbrysk.ahocorasick/Match.<init>|<init>(kotlin.String;kotlin.ranges.IntRange){}[0]
+
+    final val range // dev.hsbrysk.ahocorasick/Match.range|{}range[0]
+        final fun <get-range>(): kotlin.ranges/IntRange // dev.hsbrysk.ahocorasick/Match.range.<get-range>|<get-range>(){}[0]
+    final val word // dev.hsbrysk.ahocorasick/Match.word|{}word[0]
+        final fun <get-word>(): kotlin/String // dev.hsbrysk.ahocorasick/Match.word.<get-word>|<get-word>(){}[0]
+
+    final fun component1(): kotlin/String // dev.hsbrysk.ahocorasick/Match.component1|component1(){}[0]
+    final fun component2(): kotlin.ranges/IntRange // dev.hsbrysk.ahocorasick/Match.component2|component2(){}[0]
+    final fun copy(kotlin/String = ..., kotlin.ranges/IntRange = ...): dev.hsbrysk.ahocorasick/Match // dev.hsbrysk.ahocorasick/Match.copy|copy(kotlin.String;kotlin.ranges.IntRange){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // dev.hsbrysk.ahocorasick/Match.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // dev.hsbrysk.ahocorasick/Match.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // dev.hsbrysk.ahocorasick/Match.toString|toString(){}[0]
+}
+
+final fun dev.hsbrysk.ahocorasick/buildAhoCorasick(kotlin/Function1<dev.hsbrysk.ahocorasick/AhoCorasick.Builder, kotlin/Unit>): dev.hsbrysk.ahocorasick/AhoCorasick // dev.hsbrysk.ahocorasick/buildAhoCorasick|buildAhoCorasick(kotlin.Function1<dev.hsbrysk.ahocorasick.AhoCorasick.Builder,kotlin.Unit>){}[0]

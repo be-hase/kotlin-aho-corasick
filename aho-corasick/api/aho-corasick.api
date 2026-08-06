@@ -1,0 +1,46 @@
+public final class dev/hsbrysk/ahocorasick/AhoCorasick {
+	public fun <init> (Ljava/lang/Iterable;Ldev/hsbrysk/ahocorasick/CaseFolding;)V
+	public synthetic fun <init> (Ljava/lang/Iterable;Ldev/hsbrysk/ahocorasick/CaseFolding;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> ([Ljava/lang/String;)V
+	public final fun containsAny (Ljava/lang/String;)Z
+	public final fun findAll (Ljava/lang/String;)Ljava/util/List;
+	public final fun findOverlapping (Ljava/lang/String;)Ljava/util/List;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/hsbrysk/ahocorasick/AhoCorasick$Builder {
+	public fun <init> ()V
+	public final fun add (Ljava/lang/String;)Ldev/hsbrysk/ahocorasick/AhoCorasick$Builder;
+	public final fun addAll (Ljava/lang/Iterable;)Ldev/hsbrysk/ahocorasick/AhoCorasick$Builder;
+	public final fun build ()Ldev/hsbrysk/ahocorasick/AhoCorasick;
+	public final fun getCaseFolding ()Ldev/hsbrysk/ahocorasick/CaseFolding;
+	public final fun setCaseFolding (Ldev/hsbrysk/ahocorasick/CaseFolding;)V
+	public final fun unaryPlus (Ljava/lang/String;)V
+}
+
+public final class dev/hsbrysk/ahocorasick/AhoCorasickKt {
+	public static final fun buildAhoCorasick (Lkotlin/jvm/functions/Function1;)Ldev/hsbrysk/ahocorasick/AhoCorasick;
+}
+
+public final class dev/hsbrysk/ahocorasick/CaseFolding : java/lang/Enum {
+	public static final field ASCII Ldev/hsbrysk/ahocorasick/CaseFolding;
+	public static final field NONE Ldev/hsbrysk/ahocorasick/CaseFolding;
+	public static final field UNICODE_SIMPLE Ldev/hsbrysk/ahocorasick/CaseFolding;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/hsbrysk/ahocorasick/CaseFolding;
+	public static fun values ()[Ldev/hsbrysk/ahocorasick/CaseFolding;
+}
+
+public final class dev/hsbrysk/ahocorasick/Match {
+	public fun <init> (Ljava/lang/String;Lkotlin/ranges/IntRange;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lkotlin/ranges/IntRange;
+	public final fun copy (Ljava/lang/String;Lkotlin/ranges/IntRange;)Ldev/hsbrysk/ahocorasick/Match;
+	public static synthetic fun copy$default (Ldev/hsbrysk/ahocorasick/Match;Ljava/lang/String;Lkotlin/ranges/IntRange;ILjava/lang/Object;)Ldev/hsbrysk/ahocorasick/Match;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getRange ()Lkotlin/ranges/IntRange;
+	public final fun getWord ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
