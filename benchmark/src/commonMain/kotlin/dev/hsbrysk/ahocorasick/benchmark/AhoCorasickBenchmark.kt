@@ -10,10 +10,11 @@ import kotlinx.benchmark.State
 import kotlin.random.Random
 
 /**
- * Compares scanning a text for a keyword list three ways: a naive `word1|word2|...` regex
+ * Compares scanning a text for a keyword list four ways: a naive `word1|word2|...` regex
  * alternation, the trie-optimized regex produced by
- * [kotlin-regexp-trie](https://github.com/be-hase/kotlin-regexp-trie), and [AhoCorasick.findAll].
- * All three report leftmost-longest non-overlapping matches, so the match counts are identical.
+ * [kotlin-regexp-trie](https://github.com/be-hase/kotlin-regexp-trie), [AhoCorasick.findAll]
+ * (the double-array v2), and [LegacyAhoCorasick.findAll] (the frozen HashMap-trie v1). All
+ * report leftmost-longest non-overlapping matches, so the match counts are identical.
  *
  * The setup is fully deterministic (fixed seed): a vocabulary of syllable-based words (which
  * naturally share prefixes, like real dictionaries do), of which [wordCount] words become the
@@ -28,6 +29,7 @@ class AhoCorasickBenchmark {
     private lateinit var naiveRegex: Regex
     private lateinit var trieRegex: Regex
     private lateinit var ahoCorasick: AhoCorasick
+    private lateinit var legacyAhoCorasick: LegacyAhoCorasick
     private lateinit var text: String
 
     @Setup
@@ -41,6 +43,7 @@ class AhoCorasickBenchmark {
         naiveRegex = Regex(words.sortedByDescending { it.length }.joinToString("|", "(?:", ")"))
         trieRegex = RegexpTrie(words).toRegex()
         ahoCorasick = AhoCorasick(words)
+        legacyAhoCorasick = LegacyAhoCorasick(words)
         text = List(TEXT_TOKENS) { vocabulary.random(random) }.joinToString(" ")
     }
 
@@ -55,6 +58,12 @@ class AhoCorasickBenchmark {
 
     @Benchmark
     fun ahoCorasickBuild(): AhoCorasick = AhoCorasick(words)
+
+    @Benchmark
+    fun legacyFindAll(): Int = legacyAhoCorasick.findAll(text).size
+
+    @Benchmark
+    fun legacyBuild(): Any = LegacyAhoCorasick(words)
 
     private fun generateWords(
         count: Int,

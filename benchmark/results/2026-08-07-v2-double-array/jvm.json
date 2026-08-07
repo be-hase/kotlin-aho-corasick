@@ -1,0 +1,1048 @@
+[
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.ahoCorasickBuild",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "100"
+        },
+        "primaryMetric" : {
+            "score" : 0.018859278681404548,
+            "scoreError" : 3.3581790723377884E-5,
+            "scoreConfidence" : [
+                0.01882569689068117,
+                0.018892860472127924
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.01884965213404936,
+                "50.0" : 0.01886338148507825,
+                "90.0" : 0.018868316315474858,
+                "95.0" : 0.018868316315474858,
+                "99.0" : 0.018868316315474858,
+                "99.9" : 0.018868316315474858,
+                "99.99" : 0.018868316315474858,
+                "99.999" : 0.018868316315474858,
+                "99.9999" : 0.018868316315474858,
+                "100.0" : 0.018868316315474858
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.01886483177378084,
+                    0.01886338148507825,
+                    0.018868316315474858,
+                    0.01885021169863943,
+                    0.01884965213404936
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.ahoCorasickBuild",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "1000"
+        },
+        "primaryMetric" : {
+            "score" : 0.23520577516354885,
+            "scoreError" : 0.003991597516843981,
+            "scoreConfidence" : [
+                0.23121417764670488,
+                0.23919737268039282
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.2345042530878583,
+                "50.0" : 0.23456899743410312,
+                "90.0" : 0.236903220684803,
+                "95.0" : 0.236903220684803,
+                "99.0" : 0.236903220684803,
+                "99.9" : 0.236903220684803,
+                "99.99" : 0.236903220684803,
+                "99.999" : 0.236903220684803,
+                "99.9999" : 0.236903220684803,
+                "100.0" : 0.236903220684803
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.23454935424959025,
+                    0.23456899743410312,
+                    0.2345042530878583,
+                    0.236903220684803,
+                    0.2355030503613896
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.ahoCorasickBuild",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "10000"
+        },
+        "primaryMetric" : {
+            "score" : 4.133888807591824,
+            "scoreError" : 0.2126297316533577,
+            "scoreConfidence" : [
+                3.9212590759384667,
+                4.346518539245182
+            ],
+            "scorePercentiles" : {
+                "0.0" : 4.052583,
+                "50.0" : 4.142967251028806,
+                "90.0" : 4.198128112033195,
+                "95.0" : 4.198128112033195,
+                "99.0" : 4.198128112033195,
+                "99.9" : 4.198128112033195,
+                "99.99" : 4.198128112033195,
+                "99.999" : 4.198128112033195,
+                "99.9999" : 4.198128112033195,
+                "100.0" : 4.198128112033195
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    4.198128112033195,
+                    4.052583,
+                    4.11195,
+                    4.142967251028806,
+                    4.163815674897119
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.ahoCorasickFindAll",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "100"
+        },
+        "primaryMetric" : {
+            "score" : 0.029019266881273275,
+            "scoreError" : 8.849704452632249E-5,
+            "scoreConfidence" : [
+                0.02893076983674695,
+                0.0291077639257996
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.02898353776183644,
+                "50.0" : 0.029019809802907543,
+                "90.0" : 0.029040581926285104,
+                "95.0" : 0.029040581926285104,
+                "99.0" : 0.029040581926285104,
+                "99.9" : 0.029040581926285104,
+                "99.99" : 0.029040581926285104,
+                "99.999" : 0.029040581926285104,
+                "99.9999" : 0.029040581926285104,
+                "100.0" : 0.029040581926285104
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.029019809802907543,
+                    0.02898353776183644,
+                    0.029040581926285104,
+                    0.029038147389196876,
+                    0.02901425752614041
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.ahoCorasickFindAll",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "1000"
+        },
+        "primaryMetric" : {
+            "score" : 0.04569194802715225,
+            "scoreError" : 8.7214518612926E-4,
+            "scoreConfidence" : [
+                0.044819802841022986,
+                0.04656409321328151
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.04545626132937312,
+                "50.0" : 0.04571182033729259,
+                "90.0" : 0.045954984263889526,
+                "95.0" : 0.045954984263889526,
+                "99.0" : 0.045954984263889526,
+                "99.9" : 0.045954984263889526,
+                "99.99" : 0.045954984263889526,
+                "99.999" : 0.045954984263889526,
+                "99.9999" : 0.045954984263889526,
+                "100.0" : 0.045954984263889526
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.04545626132937312,
+                    0.0458670212514758,
+                    0.04546965295373019,
+                    0.045954984263889526,
+                    0.04571182033729259
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.ahoCorasickFindAll",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "10000"
+        },
+        "primaryMetric" : {
+            "score" : 0.10002236482072335,
+            "scoreError" : 0.001821321690904187,
+            "scoreConfidence" : [
+                0.09820104312981917,
+                0.10184368651162753
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.0992545996857199,
+                "50.0" : 0.10014340422367639,
+                "90.0" : 0.10042764631705364,
+                "95.0" : 0.10042764631705364,
+                "99.0" : 0.10042764631705364,
+                "99.9" : 0.10042764631705364,
+                "99.99" : 0.10042764631705364,
+                "99.999" : 0.10042764631705364,
+                "99.9999" : 0.10042764631705364,
+                "100.0" : 0.10042764631705364
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.09992244119101791,
+                    0.10036373268614891,
+                    0.0992545996857199,
+                    0.10042764631705364,
+                    0.10014340422367639
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.legacyBuild",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "100"
+        },
+        "primaryMetric" : {
+            "score" : 0.018378989524319038,
+            "scoreError" : 6.868056631994523E-5,
+            "scoreConfidence" : [
+                0.018310308957999094,
+                0.018447670090638982
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.01835062846553541,
+                "50.0" : 0.018384517200582453,
+                "90.0" : 0.018396413994381817,
+                "95.0" : 0.018396413994381817,
+                "99.0" : 0.018396413994381817,
+                "99.9" : 0.018396413994381817,
+                "99.99" : 0.018396413994381817,
+                "99.999" : 0.018396413994381817,
+                "99.9999" : 0.018396413994381817,
+                "100.0" : 0.018396413994381817
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.018396413994381817,
+                    0.01835062846553541,
+                    0.018389419400648144,
+                    0.018384517200582453,
+                    0.018373968560447367
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.legacyBuild",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "1000"
+        },
+        "primaryMetric" : {
+            "score" : 0.23451936909143214,
+            "scoreError" : 0.006742382916208906,
+            "scoreConfidence" : [
+                0.22777698617522324,
+                0.24126175200764105
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.23307877860120427,
+                "50.0" : 0.23361335856481483,
+                "90.0" : 0.23715179976525821,
+                "95.0" : 0.23715179976525821,
+                "99.0" : 0.23715179976525821,
+                "99.9" : 0.23715179976525821,
+                "99.99" : 0.23715179976525821,
+                "99.999" : 0.23715179976525821,
+                "99.9999" : 0.23715179976525821,
+                "100.0" : 0.23715179976525821
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.23328170240295748,
+                    0.23361335856481483,
+                    0.23715179976525821,
+                    0.2354712061229259,
+                    0.23307877860120427
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.legacyBuild",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "10000"
+        },
+        "primaryMetric" : {
+            "score" : 3.858370144387611,
+            "scoreError" : 0.09081469238390588,
+            "scoreConfidence" : [
+                3.7675554520037053,
+                3.9491848367715168
+            ],
+            "scorePercentiles" : {
+                "0.0" : 3.820289928030303,
+                "50.0" : 3.8660423015267176,
+                "90.0" : 3.8828928812260535,
+                "95.0" : 3.8828928812260535,
+                "99.0" : 3.8828928812260535,
+                "99.9" : 3.8828928812260535,
+                "99.99" : 3.8828928812260535,
+                "99.999" : 3.8828928812260535,
+                "99.9999" : 3.8828928812260535,
+                "100.0" : 3.8828928812260535
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    3.868285122605364,
+                    3.854340488549618,
+                    3.820289928030303,
+                    3.8660423015267176,
+                    3.8828928812260535
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.legacyFindAll",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "100"
+        },
+        "primaryMetric" : {
+            "score" : 0.07555193017517184,
+            "scoreError" : 6.631944373486099E-4,
+            "scoreConfidence" : [
+                0.07488873573782323,
+                0.07621512461252045
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.07539531238336941,
+                "50.0" : 0.07556828030587001,
+                "90.0" : 0.07581509156099034,
+                "95.0" : 0.07581509156099034,
+                "99.0" : 0.07581509156099034,
+                "99.9" : 0.07581509156099034,
+                "99.99" : 0.07581509156099034,
+                "99.999" : 0.07581509156099034,
+                "99.9999" : 0.07581509156099034,
+                "100.0" : 0.07581509156099034
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.07539815189967904,
+                    0.07539531238336941,
+                    0.07556828030587001,
+                    0.07581509156099034,
+                    0.07558281472595037
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.legacyFindAll",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "1000"
+        },
+        "primaryMetric" : {
+            "score" : 0.13271840307662258,
+            "scoreError" : 0.0029115790762347825,
+            "scoreConfidence" : [
+                0.1298068240003878,
+                0.13562998215285738
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.13176880371387473,
+                "50.0" : 0.13283742437475188,
+                "90.0" : 0.1336629781682641,
+                "95.0" : 0.1336629781682641,
+                "99.0" : 0.1336629781682641,
+                "99.9" : 0.1336629781682641,
+                "99.99" : 0.1336629781682641,
+                "99.999" : 0.1336629781682641,
+                "99.9999" : 0.1336629781682641,
+                "100.0" : 0.1336629781682641
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.1336629781682641,
+                    0.13176880371387473,
+                    0.13217545577074064,
+                    0.13283742437475188,
+                    0.13314735335548172
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.legacyFindAll",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "10000"
+        },
+        "primaryMetric" : {
+            "score" : 0.19082437276463615,
+            "scoreError" : 0.004612463169515827,
+            "scoreConfidence" : [
+                0.18621190959512032,
+                0.19543683593415198
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.18936828369195924,
+                "50.0" : 0.19105541895214678,
+                "90.0" : 0.19228151080099407,
+                "95.0" : 0.19228151080099407,
+                "99.0" : 0.19228151080099407,
+                "99.9" : 0.19228151080099407,
+                "99.99" : 0.19228151080099407,
+                "99.999" : 0.19228151080099407,
+                "99.9999" : 0.19228151080099407,
+                "100.0" : 0.19228151080099407
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.18936828369195924,
+                    0.19154961560364464,
+                    0.1898670347744361,
+                    0.19228151080099407,
+                    0.19105541895214678
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.naiveAlternationFindAll",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "100"
+        },
+        "primaryMetric" : {
+            "score" : 1.0154163680949817,
+            "scoreError" : 0.00322804364645217,
+            "scoreConfidence" : [
+                1.0121883244485295,
+                1.018644411741434
+            ],
+            "scorePercentiles" : {
+                "0.0" : 1.0144694186746988,
+                "50.0" : 1.0150876004016065,
+                "90.0" : 1.0163512985829959,
+                "95.0" : 1.0163512985829959,
+                "99.0" : 1.0163512985829959,
+                "99.9" : 1.0163512985829959,
+                "99.99" : 1.0163512985829959,
+                "99.999" : 1.0163512985829959,
+                "99.9999" : 1.0163512985829959,
+                "100.0" : 1.0163512985829959
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    1.0149256606425703,
+                    1.0163512985829959,
+                    1.0150876004016065,
+                    1.0144694186746988,
+                    1.0162478621730382
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.naiveAlternationFindAll",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "1000"
+        },
+        "primaryMetric" : {
+            "score" : 10.022663983323627,
+            "scoreError" : 0.09590298282830348,
+            "scoreConfidence" : [
+                9.926761000495324,
+                10.11856696615193
+            ],
+            "scorePercentiles" : {
+                "0.0" : 9.988645421568627,
+                "50.0" : 10.036382425742575,
+                "90.0" : 10.04733993069307,
+                "95.0" : 10.04733993069307,
+                "99.0" : 10.04733993069307,
+                "99.9" : 10.04733993069307,
+                "99.99" : 10.04733993069307,
+                "99.999" : 10.04733993069307,
+                "99.9999" : 10.04733993069307,
+                "100.0" : 10.04733993069307
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    10.036382425742575,
+                    10.004394386138614,
+                    9.988645421568627,
+                    10.036557752475247,
+                    10.04733993069307
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.naiveAlternationFindAll",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "10000"
+        },
+        "primaryMetric" : {
+            "score" : 123.112163775,
+            "scoreError" : 15.819735794706856,
+            "scoreConfidence" : [
+                107.29242798029314,
+                138.93189956970684
+            ],
+            "scorePercentiles" : {
+                "0.0" : 119.70147222222222,
+                "50.0" : 120.96055555555556,
+                "90.0" : 127.701958375,
+                "95.0" : 127.701958375,
+                "99.0" : 127.701958375,
+                "99.9" : 127.701958375,
+                "99.99" : 127.701958375,
+                "99.999" : 127.701958375,
+                "99.9999" : 127.701958375,
+                "100.0" : 127.701958375
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    127.4527865,
+                    127.701958375,
+                    120.96055555555556,
+                    119.70147222222222,
+                    119.74404622222222
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.regexpTrieFindAll",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "100"
+        },
+        "primaryMetric" : {
+            "score" : 0.21259975435880735,
+            "scoreError" : 0.0018784769601767328,
+            "scoreConfidence" : [
+                0.2107212773986306,
+                0.21447823131898408
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.21201244323189927,
+                "50.0" : 0.21284406411889598,
+                "90.0" : 0.21302266321790542,
+                "95.0" : 0.21302266321790542,
+                "99.0" : 0.21302266321790542,
+                "99.9" : 0.21302266321790542,
+                "99.99" : 0.21302266321790542,
+                "99.999" : 0.21302266321790542,
+                "99.9999" : 0.21302266321790542,
+                "100.0" : 0.21302266321790542
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.21298715519425676,
+                    0.21284406411889598,
+                    0.2121324460310794,
+                    0.21201244323189927,
+                    0.21302266321790542
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.regexpTrieFindAll",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "1000"
+        },
+        "primaryMetric" : {
+            "score" : 0.3663317292358907,
+            "scoreError" : 0.0023811158647573344,
+            "scoreConfidence" : [
+                0.3639506133711334,
+                0.368712845100648
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.3655334813338166,
+                "50.0" : 0.3663582388767323,
+                "90.0" : 0.36705268895348836,
+                "95.0" : 0.36705268895348836,
+                "99.0" : 0.36705268895348836,
+                "99.9" : 0.36705268895348836,
+                "99.99" : 0.36705268895348836,
+                "99.999" : 0.36705268895348836,
+                "99.9999" : 0.36705268895348836,
+                "100.0" : 0.36705268895348836
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.366787549945514,
+                    0.3659266870699022,
+                    0.3663582388767323,
+                    0.36705268895348836,
+                    0.3655334813338166
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    },
+    {
+        "jmhVersion" : "1.37",
+        "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.regexpTrieFindAll",
+        "mode" : "avgt",
+        "threads" : 1,
+        "forks" : 1,
+        "jvm" : "/Users/hasebe/.local/share/mise/installs/java/temurin-17.0.17+10/bin/java",
+        "jvmArgs" : [
+            "-Dfile.encoding=UTF-8",
+            "-Duser.country=JP",
+            "-Duser.language=ja",
+            "-Duser.variant"
+        ],
+        "jdkVersion" : "17.0.17",
+        "vmName" : "OpenJDK 64-Bit Server VM",
+        "vmVersion" : "17.0.17+10",
+        "warmupIterations" : 5,
+        "warmupTime" : "1 s",
+        "warmupBatchSize" : 1,
+        "measurementIterations" : 5,
+        "measurementTime" : "1 s",
+        "measurementBatchSize" : 1,
+        "params" : {
+            "wordCount" : "10000"
+        },
+        "primaryMetric" : {
+            "score" : 0.8997169495650377,
+            "scoreError" : 0.00842189080333693,
+            "scoreConfidence" : [
+                0.8912950587617008,
+                0.9081388403683746
+            ],
+            "scorePercentiles" : {
+                "0.0" : 0.8977739000892061,
+                "50.0" : 0.898653125,
+                "90.0" : 0.9032990089445438,
+                "95.0" : 0.9032990089445438,
+                "99.0" : 0.9032990089445438,
+                "99.9" : 0.9032990089445438,
+                "99.99" : 0.9032990089445438,
+                "99.999" : 0.9032990089445438,
+                "99.9999" : 0.9032990089445438,
+                "100.0" : 0.9032990089445438
+            },
+            "scoreUnit" : "ms/op",
+            "rawData" : [
+                [
+                    0.8977739000892061,
+                    0.8986449579982126,
+                    0.9032990089445438,
+                    0.9002137557932264,
+                    0.898653125
+                ]
+            ]
+        },
+        "secondaryMetrics" : {
+        }
+    }
+]
+
+
