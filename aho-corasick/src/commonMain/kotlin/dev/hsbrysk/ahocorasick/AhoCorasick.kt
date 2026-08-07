@@ -36,29 +36,17 @@ public class AhoCorasick public constructor(
      */
     public constructor(vararg words: String) : this(words.asIterable())
 
-    private val root = Node()
+    private val automaton: CompactAutomaton
     private val storedWords: List<String>
     private val storedWordLengths: IntArray
 
     init {
-        val stored = mutableListOf<String>()
-        for (word in words) {
-            require(word.isNotEmpty()) { "words must not contain an empty string" }
-            var node = root
-            var index = 0
-            while (index < word.length) {
-                val codePoint = word.codePointAt(index)
-                node = node.children.getOrPut(caseFolding.fold(codePoint)) { Node() }
-                index += charCount(codePoint)
-            }
-            if (node.wordIndex < 0) {
-                node.wordIndex = stored.size
-                stored.add(word)
-            }
-        }
-        storedWords = stored
-        storedWordLengths = IntArray(stored.size) { stored[it].length }
-        buildLinks()
+        // Materialized because construction is two passes (code point frequencies, then the
+        // trie); a single-pass Iterable must not be consumed twice.
+        val built = CompactAutomaton.build(words.toList(), caseFolding)
+        automaton = built.automaton
+        storedWords = built.storedWords
+        storedWordLengths = IntArray(storedWords.size) { storedWords[it].length }
     }
 
     /**
@@ -99,12 +87,12 @@ public class AhoCorasick public constructor(
      * cheapest way to answer "does the text contain any of the words?".
      */
     public fun containsAny(text: String): Boolean {
-        var node = root
+        var state = ROOT_STATE
         var index = 0
         while (index < text.length) {
             val codePoint = text.codePointAt(index)
-            node = advance(node, caseFolding.fold(codePoint))
-            if (node.hasOutput) {
+            state = step(state, codePoint)
+            if (automaton.outputPosOf(state) >= 0) {
                 return true
             }
             index += charCount(codePoint)
@@ -115,87 +103,37 @@ public class AhoCorasick public constructor(
     override fun toString(): String = "AhoCorasick(wordCount=${storedWords.size}, caseFolding=$caseFolding)"
 
     /**
-     * Builds the failure links (longest proper suffix that is also a trie path), output links
-     * (nearest terminal suffix) and the precomputed [Node.hasOutput] flag, breadth-first, so every
-     * link points to an already-completed shallower node. Iterative on an [ArrayDeque]; nothing in
-     * this class recurses, keeping deep tries safe on Kotlin/Native's limited stack.
+     * Advances by one code point. A code point absent from the dictionary alphabet has no edge
+     * anywhere in the automaton, so the failure descent would collapse straight to the root —
+     * done here without touching the double array.
      */
-    private fun buildLinks() {
-        val queue = ArrayDeque<Node>()
-        for (child in root.children.values) {
-            child.fail = root
-            child.hasOutput = child.wordIndex >= 0
-            queue.addLast(child)
-        }
-        while (queue.isNotEmpty()) {
-            val node = queue.removeFirst()
-            for ((codePoint, child) in node.children) {
-                // node is at depth >= 1, so the fallback target is at depth >= 1 too and can never
-                // be child itself.
-                child.fail = advance(node.fail, codePoint)
-                child.outputLink = if (child.fail.wordIndex >= 0) child.fail else child.fail.outputLink
-                child.hasOutput = child.wordIndex >= 0 || child.fail.hasOutput
-                queue.addLast(child)
-            }
-        }
-    }
-
-    /**
-     * The goto function: follows failure links from [from] until a node with a [codePoint] child
-     * is found, or stays at the root on a complete miss.
-     */
-    private fun advance(
-        from: Node,
+    private fun step(
+        state: Int,
         codePoint: Int,
-    ): Node {
-        var node = from
-        while (true) {
-            val next = node.children[codePoint]
-            if (next != null) {
-                return next
-            }
-            if (node === root) {
-                return root
-            }
-            node = node.fail
-        }
+    ): Int {
+        val mapped = automaton.mapCode(caseFolding.fold(codePoint))
+        return if (mapped < 0) ROOT_STATE else automaton.nextState(state, mapped)
     }
 
     private fun collectMatches(text: String): MutableList<Match> {
         val matches = mutableListOf<Match>()
-        var node = root
+        var state = ROOT_STATE
         var index = 0
         while (index < text.length) {
             val codePoint = text.codePointAt(index)
-            node = advance(node, caseFolding.fold(codePoint))
+            state = step(state, codePoint)
             val end = index + charCount(codePoint)
-            var out = if (node.wordIndex >= 0) node else node.outputLink
-            while (out != null) {
+            var outputPos = automaton.outputPosOf(state)
+            while (outputPos >= 0) {
+                val wordIndex = automaton.outputWordIndexes[outputPos]
                 // Folding is 1 Char -> 1 Char, so the folded path length equals the original
                 // word length and the start index is exact.
-                matches.add(Match(storedWords[out.wordIndex], (end - storedWordLengths[out.wordIndex]) until end))
-                out = out.outputLink
+                matches.add(Match(storedWords[wordIndex], (end - storedWordLengths[wordIndex]) until end))
+                outputPos = automaton.outputParentPositions[outputPos]
             }
             index = end
         }
         return matches
-    }
-
-    private class Node {
-        /** Keys are case-folded code points. */
-        val children: MutableMap<Int, Node> = HashMap()
-
-        /** Index into [storedWords] when this node is the end of a word, or -1. */
-        var wordIndex: Int = -1
-
-        /** Failure link; the root links to itself. */
-        var fail: Node = this
-
-        /** Nearest proper-suffix node that ends a word, forming a chain that emits all outputs. */
-        var outputLink: Node? = null
-
-        /** Whether this node or any node on its failure chain ends a word. */
-        var hasOutput: Boolean = false
     }
 
     /**
@@ -253,26 +191,3 @@ public class AhoCorasick public constructor(
  */
 public fun buildAhoCorasick(block: AhoCorasick.Builder.() -> Unit): AhoCorasick =
     AhoCorasick.Builder().apply(block).build()
-
-/**
- * Returns the code point starting at [index]: a high surrogate followed by a low surrogate
- * combines into one supplementary code point, and any other `Char` — including a lone
- * surrogate — is its own code point.
- */
-private fun String.codePointAt(index: Int): Int {
-    val high = this[index]
-    if (high.isHighSurrogate() && index + 1 < length) {
-        val low = this[index + 1]
-        if (low.isLowSurrogate()) {
-            return MIN_SUPPLEMENTARY_CODE_POINT +
-                ((high.code - Char.MIN_HIGH_SURROGATE.code) shl SURROGATE_DECODE_SHIFT) +
-                (low.code - Char.MIN_LOW_SURROGATE.code)
-        }
-    }
-    return high.code
-}
-
-private fun charCount(codePoint: Int): Int = if (codePoint >= MIN_SUPPLEMENTARY_CODE_POINT) 2 else 1
-
-private const val MIN_SUPPLEMENTARY_CODE_POINT = 0x10000
-private const val SURROGATE_DECODE_SHIFT = 10
