@@ -2,10 +2,20 @@
 
 Comparison of scanning a text for a keyword list four ways: a naive `word1|word2|...` regex
 alternation, the trie-optimized regex produced by
-[kotlin-regexp-trie](https://github.com/be-hase/kotlin-regexp-trie), `AhoCorasick.findAll`
-(the double-array engine, v2), and the frozen v1 HashMap-trie implementation
-(`LegacyAhoCorasick`) it replaced ([kotlinx-benchmark](https://github.com/Kotlin/kotlinx-benchmark)).
-Raw JSON reports live in [`results/`](results/).
+[kotlin-regexp-trie](https://github.com/be-hase/kotlin-regexp-trie), `AhoCorasick.findAll`,
+and the previous-generation implementation of this library
+([kotlinx-benchmark](https://github.com/Kotlin/kotlinx-benchmark)). Raw JSON reports live in
+[`results/`](results/).
+
+Engine naming used throughout this document — these are internal engine generations, not
+release version numbers:
+
+- **v2** — the current engine: a compact double-array automaton (`IntArray`-based, daachorse
+  charwise layout). This is what `AhoCorasick` ships with today.
+- **v1** — the original engine: a `HashMap`-keyed node trie, shipped in release 0.0.1 and since
+  replaced. It is kept frozen as
+  [`LegacyAhoCorasick`](src/commonMain/kotlin/dev/hsbrysk/ahocorasick/benchmark/LegacyAhoCorasick.kt)
+  in this (unpublished) benchmark module purely for comparison.
 
 ## Environment
 
