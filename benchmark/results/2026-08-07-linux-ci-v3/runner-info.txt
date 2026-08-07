@@ -1,0 +1,4 @@
+model name	: AMD EPYC 9V74 80-Core Processor
+nproc: 4
+MemTotal:       16373460 kB
+runner image: ubuntu24 20260720.247.2

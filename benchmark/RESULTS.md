@@ -149,53 +149,71 @@ in prose, …). See
 
 `linuxX64` cannot run on the Apple Silicon development machine, so it is measured on a GitHub
 Actions runner via the manual `benchmark.yml` workflow (jvm/js/wasmJs are re-run on the same
-runner for a self-consistent set). This section is still the **v2-engine** run and predates the
-sparse benchmark; re-run the workflow after the v3 prefilter lands to refresh it. Absolute times are **not comparable** to the Apple M4 tables
+runner for a self-consistent set). Absolute times are **not comparable** to the Apple M4 tables
 above — shared runners are slower and noisier — but the within-run ratios are the point and they
-confirm the same picture. Raw JSON:
-[`results/2026-08-07-linux-ci-v2/`](results/2026-08-07-linux-ci-v2/) (the pre-rewrite v1-only
-run is kept in [`results/2026-08-07-linux-ci/`](results/2026-08-07-linux-ci/)).
+confirm the same picture. This is the **v3-engine** run (2026-08-07, raw JSON:
+[`results/2026-08-07-linux-ci-v3/`](results/2026-08-07-linux-ci-v3/)); the earlier v2 and
+v1-only runs are kept in
+[`results/2026-08-07-linux-ci-v2/`](results/2026-08-07-linux-ci-v2/) and
+[`results/2026-08-07-linux-ci/`](results/2026-08-07-linux-ci/).
 
 Environment: AMD EPYC 9V74 (4 vCPU), 16 GB RAM, ubuntu-latest (ubuntu24 image 20260720.247.2),
-2026-08-07; otherwise identical config. Note the runner CPU differs from the earlier v1-only run
-(EPYC 7763), another reason to compare only within a run.
+2026-08-07; otherwise identical config.
 
-### findAll (ms/op)
+### findAll on the dense text (ms/op)
 
-| Target | wordCount | naive alternation | regexp-trie | AhoCorasick (v2) | v1 (HashMap trie) | v2 vs naive | v2 vs regexp-trie | v2 vs v1 |
+| Target | wordCount | naive alternation | regexp-trie | AhoCorasick (v3) | v1 (HashMap trie) | v3 vs naive | v3 vs regexp-trie | v3 vs v1 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| jvm | 100 | 1.924 ± 0.016 | 0.426 ± 0.014 | 0.055 ± 0.001 | 0.103 ± 0.000 | **35×** | **7.7×** | **1.9×** |
-| jvm | 1000 | 18.729 ± 0.046 | 0.860 ± 0.043 | 0.098 ± 0.001 | 0.181 ± 0.007 | **191×** | **8.8×** | **1.8×** |
-| jvm | 10000 | 178.387 ± 15.356 | 2.021 ± 0.020 | 0.212 ± 0.003 | 0.347 ± 0.006 | **841×** | **9.5×** | **1.6×** |
-| js (Node) | 100 | 0.051 ± 0.000 | 0.048 ± 0.001 | 0.181 ± 0.025 | 0.399 ± 0.001 | 0.28× | 0.27× | **2.2×** |
-| js (Node) | 1000 | 0.075 ± 0.002 | 0.076 ± 0.001 | 0.230 ± 0.001 | 0.862 ± 0.003 | 0.33× | 0.33× | **3.7×** |
-| js (Node) | 10000 | 0.447 ± 0.004 | 0.304 ± 0.001 | 0.554 ± 0.018 | 1.598 ± 0.002 | 0.81× | 0.55× | **2.9×** |
-| wasmJs (Node) | 100 | 13.428 ± 0.020 | 1.022 ± 0.002 | 0.210 ± 0.000 | 0.371 ± 0.007 | **64×** | **4.9×** | **1.8×** |
-| wasmJs (Node) | 1000 | 130.879 ± 0.129 | 1.848 ± 0.002 | 0.340 ± 0.006 | 0.756 ± 0.002 | **385×** | **5.4×** | **2.2×** |
-| wasmJs (Node) | 10000 | 1119.862 ± 1.445 | 5.035 ± 0.010 | 0.920 ± 0.001 | 1.648 ± 0.006 | **1217×** | **5.5×** | **1.8×** |
-| linuxX64 | 100 | 9.029 ± 0.032 | 1.236 ± 0.008 | 0.213 ± 0.001 | 0.354 ± 0.003 | **42×** | **5.8×** | **1.7×** |
-| linuxX64 | 1000 | 85.923 ± 0.062 | 2.180 ± 0.015 | 0.369 ± 0.003 | 0.590 ± 0.005 | **233×** | **5.9×** | **1.6×** |
-| linuxX64 | 10000 | 684.710 ± 2.325 | 16.076 ± 0.144 | 1.242 ± 0.013 | 1.559 ± 0.011 | **551×** | **13×** | **1.3×** |
+| jvm | 100 | 1.923 ± 0.018 | 0.443 ± 0.024 | 0.055 ± 0.000 | 0.102 ± 0.001 | **35×** | **8.1×** | **1.9×** |
+| jvm | 1000 | 18.707 ± 0.079 | 0.933 ± 0.141 | 0.094 ± 0.001 | 0.173 ± 0.001 | **199×** | **9.9×** | **1.8×** |
+| jvm | 10000 | 195.718 ± 1.682 | 1.956 ± 0.130 | 0.206 ± 0.010 | 0.324 ± 0.004 | **950×** | **9.5×** | **1.6×** |
+| js (Node) | 100 | 0.051 ± 0.001 | 0.050 ± 0.000 | 0.228 ± 0.065 | 0.462 ± 0.019 | 0.22× | 0.22× | **2.0×** |
+| js (Node) | 1000 | 0.073 ± 0.001 | 0.076 ± 0.000 | 0.310 ± 0.001 | 0.902 ± 0.011 | 0.24× | 0.25× | **2.9×** |
+| js (Node) | 10000 | 0.442 ± 0.000 | 0.304 ± 0.001 | 0.646 ± 0.022 | 1.868 ± 0.160 | 0.68× | 0.47× | **2.9×** |
+| wasmJs (Node) | 100 | 13.442 ± 0.050 | 1.064 ± 0.002 | 0.204 ± 0.000 | 0.374 ± 0.004 | **66×** | **5.2×** | **1.8×** |
+| wasmJs (Node) | 1000 | 137.547 ± 5.705 | 1.926 ± 0.003 | 0.332 ± 0.001 | 0.764 ± 0.006 | **414×** | **5.8×** | **2.3×** |
+| wasmJs (Node) | 10000 | 1117.807 ± 0.733 | 5.221 ± 0.045 | 0.905 ± 0.002 | 1.657 ± 0.006 | **1235×** | **5.8×** | **1.8×** |
+| linuxX64 | 100 | 8.990 ± 0.077 | 1.226 ± 0.003 | 0.223 ± 0.001 | 0.353 ± 0.002 | **40×** | **5.5×** | **1.6×** |
+| linuxX64 | 1000 | 85.387 ± 0.082 | 2.207 ± 0.007 | 0.369 ± 0.001 | 0.599 ± 0.004 | **231×** | **6.0×** | **1.6×** |
+| linuxX64 | 10000 | 683.829 ± 0.781 | 17.169 ± 0.287 | 1.318 ± 0.012 | 1.617 ± 0.027 | **519×** | **13×** | **1.2×** |
+
+### findAll on the sparse text (ms/op)
+
+| Target | wordCount | naive alternation | regexp-trie | AhoCorasick (v3) | v3 vs naive | v3 vs regexp-trie |
+|---|---:|---:|---:|---:|---:|---:|
+| jvm | 100 | 16.674 ± 0.157 | 3.558 ± 0.054 | 0.021 ± 0.001 | **~790×** | **169×** |
+| jvm | 1000 | 172.527 ± 2.496 | 5.324 ± 0.476 | 0.024 ± 0.000 | **~7,200×** | **222×** |
+| jvm | 10000 | 2126.160 ± 26.142 | 7.299 ± 0.204 | 0.031 ± 0.000 | **~69,000×** | **235×** |
+| js (Node) | 100 | 0.281 ± 0.001 | 0.281 ± 0.000 | 0.042 ± 0.000 | **6.7×** | **6.7×** |
+| js (Node) | 1000 | 0.395 ± 0.001 | 0.396 ± 0.007 | 0.056 ± 0.001 | **7.1×** | **7.1×** |
+| js (Node) | 10000 | 1.988 ± 0.005 | 1.825 ± 0.009 | 0.081 ± 0.000 | **24.5×** | **22.5×** |
+| wasmJs (Node) | 100 | 133.840 ± 0.091 | 12.088 ± 1.954 | 0.119 ± 0.000 | **~1,100×** | **102×** |
+| wasmJs (Node) | 1000 | 1341.031 ± 1.544 | 11.884 ± 0.017 | 0.138 ± 0.001 | **~9,700×** | **86×** |
+| wasmJs (Node) | 10000 | 13331.645 ± 15.371 | 15.936 ± 0.020 | 0.174 ± 0.000 | **~77,000×** | **92×** |
+| linuxX64 | 100 | 79.550 ± 0.094 | 10.829 ± 0.111 | 0.063 ± 0.001 | **~1,300×** | **172×** |
+| linuxX64 | 1000 | 802.172 ± 3.993 | 14.562 ± 0.166 | 0.083 ± 0.001 | **~9,700×** | **175×** |
+| linuxX64 | 10000 | 8131.585 ± 23.351 | 18.476 ± 0.099 | 0.122 ± 0.001 | **~67,000×** | **151×** |
 
 ### Automaton build cost: `AhoCorasick(words)` (ms/op)
 
 | Target | engine | wordCount = 100 | wordCount = 1000 | wordCount = 10000 |
 |---|---|---:|---:|---:|
-| jvm | v2 double-array | 0.050 ± 0.000 | 0.684 ± 0.026 | 8.476 ± 0.060 |
-| jvm | v1 HashMap trie | 0.032 ± 0.000 | 0.483 ± 0.034 | 5.750 ± 0.274 |
-| js (Node) | v2 double-array | 0.182 ± 0.008 | 2.303 ± 0.301 | 19.671 ± 0.856 |
-| js (Node) | v1 HashMap trie | 0.141 ± 0.000 | 1.719 ± 0.007 | 31.948 ± 0.553 |
-| wasmJs (Node) | v2 double-array | 0.074 ± 0.000 | 1.015 ± 0.002 | 15.766 ± 0.358 |
-| wasmJs (Node) | v1 HashMap trie | 0.114 ± 0.002 | 4.086 ± 0.111 | 63.948 ± 18.448 |
-| linuxX64 | v2 double-array | 0.102 ± 0.001 | 1.212 ± 0.004 | 17.590 ± 0.089 |
-| linuxX64 | v1 HashMap trie | 0.110 ± 0.001 | 1.627 ± 0.008 | 27.695 ± 0.595 |
+| jvm | v3 double-array + prefilter | 0.049 ± 0.001 | 0.673 ± 0.043 | 8.279 ± 0.070 |
+| jvm | v1 HashMap trie | 0.032 ± 0.000 | 0.453 ± 0.005 | 5.546 ± 0.201 |
+| js (Node) | v3 double-array + prefilter | 0.231 ± 0.006 | 1.649 ± 0.210 | 20.720 ± 2.523 |
+| js (Node) | v1 HashMap trie | 0.138 ± 0.001 | 1.730 ± 0.027 | 37.159 ± 1.377 |
+| wasmJs (Node) | v3 double-array + prefilter | 0.091 ± 0.000 | 1.167 ± 0.001 | 16.958 ± 0.406 |
+| wasmJs (Node) | v1 HashMap trie | 0.098 ± 0.001 | 3.542 ± 0.115 | 56.420 ± 13.227 |
+| linuxX64 | v3 double-array + prefilter | 0.100 ± 0.000 | 1.254 ± 0.040 | 17.747 ± 0.207 |
+| linuxX64 | v1 HashMap trie | 0.109 ± 0.000 | 1.636 ± 0.006 | 29.821 ± 1.711 |
 
-The shared runner confirms the Apple M4 picture: v2 scans beat v1 everywhere (1.6–1.9× on the
-JVM, 2.2–3.7× on JS, 1.8–2.2× on Wasm, 1.3–1.7× on Linux/Native) and the naive alternation by
-**~550–1200× at 10,000 words**. On JS the V8-regex gap narrows to 0.28–0.81× — at 10,000 words
-the double-array engine is within 1.3× of the naive alternation on this runner. One divergence
-from the M4 numbers: on this runner's JVM, v2 *construction* is ~1.5× slower than v1 (8.5 vs
-5.8 ms at 10,000 words) rather than roughly equal; scan-side wins are unaffected.
+The shared runner confirms the Apple M4 picture on both scenarios: dense scans beat v1
+everywhere (1.6–1.9× on the JVM, 2.0–2.9× on JS, 1.8–2.3× on Wasm, 1.2–1.6× on Linux/Native)
+and the naive alternation by **~520–1240× at 10,000 words**, with dense JS still V8's win
+(0.22–0.68×) — unchanged from the v2 run, i.e. the prefilter costs dense scans nothing. On the
+sparse text the prefilter beats V8's regex by **6.7–24.5× on JS** and the regexp-trie regex by
+**86–235×** elsewhere. As in the v2 run, this runner's JVM builds v3 ~1.5× slower than v1
+(8.3 vs 5.5 ms at 10,000 words); scan-side wins are unaffected.
 
 ## Reproducing
 
