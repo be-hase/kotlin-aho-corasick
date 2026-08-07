@@ -45,8 +45,8 @@ kotlin-aho-corasick is a Kotlin Multiplatform implementation of the Aho-Corasick
 
 | Module | Description |
 |---|---|
-| `aho-corasick` | The library. `AhoCorasick.kt` / `CaseFolding.kt` / `Match.kt` in `commonMain`; tests in `commonTest` run on every target. |
-| `benchmark` | kotlinx-benchmark comparisons (naive regex alternation vs regexp-trie regex vs Aho-Corasick). Not published; declares only the targets it runs on (jvm/js/wasmJs/macosArm64/linuxX64). Results + methodology: `benchmark/RESULTS.md`, raw JSON in `benchmark/results/`. |
+| `aho-corasick` | The library. `commonMain`: `AhoCorasick.kt` (public API) / `CaseFolding.kt` / `Match.kt`, plus the internal double-array engine `CompactAutomaton.kt` / `DoubleArrayBuilder.kt` / `Nfa.kt` / `CodeMapper.kt` / `CodePoints.kt`; tests in `commonTest` run on every target. |
+| `benchmark` | kotlinx-benchmark comparisons (naive regex alternation vs regexp-trie regex vs Aho-Corasick, plus the frozen v1 HashMap-trie copy `LegacyAhoCorasick`). Not published; declares only the targets it runs on (jvm/js/wasmJs/macosArm64/linuxX64). Results + methodology: `benchmark/RESULTS.md`, raw JSON in `benchmark/results/`. |
 | `build-logic` | Convention Gradle plugins shared across modules. |
 
 ## Build Conventions
@@ -65,7 +65,12 @@ kotlin-aho-corasick is a Kotlin Multiplatform implementation of the Aho-Corasick
 
 ## Implementation Notes
 
-- The trie is keyed per **code point** (`MutableMap<Int, Node>`), folded through the instance's `CaseFolding` at insertion and scan time. Folding is strictly 1 `Char` → 1 `Char`, which is what makes `Match.range` exact original-text indices (start = end − word length) with no index remapping. Never introduce a length-changing fold.
-- The automaton (failure links, output links, precomputed `hasOutput`) is fully built in the constructor via BFS; instances are deeply immutable afterwards and safe for concurrent reads. There is no dynamic `add` — this is a deliberate design difference from RegexpTrie's mutable builder.
+- The engine is a **compact double-array automaton** in the charwise daachorse layout ("Engineering faster double-array Aho-Corasick automata", Kanda et al. 2023): one interleaved `IntArray` with four ints per state (base / check / fail / output position), transitions are `child = base xor mappedCode` verified by `check[child] == parent`. All sentinels are -1 (`base = -1` no children — 0 is a legal base; `check = -1` root and never-occupied slots; `outputPos = -1` no output). The alphabet is **case-folded code points** mapped through `CodeMapper` to dense frequency-ranked ids; code points absent from the dictionary reset the scan to the root without touching the array.
+- Safety invariant: the array length is always a multiple of the block length (alphabet size rounded up to a power of two) and mapped codes are smaller than the block length, so `base xor c` stays inside base's block — the scan loop needs no bounds guard. Don't break the multiple-of-blockLen property (allocation and trimming both preserve it).
+- Construction pipeline (`CompactAutomaton.build`): frequency count (+ empty-word `require`) → `CodeMapper` → `Nfa` (flat linked-list trie, BFS failure links + output forest on original ids) → `DoubleArrayBuilder` placement (BFS, free-slot list windowed to the newest 16 blocks per the paper's Chain + SkipForward) → fails rewritten through the state→slot mapping. `check` is written only when a child is placed, which makes false transitions structurally impossible. Everything stays iterative (deep recursion crashes Kotlin/Native) and deterministic (`CodeMapper` ranks are tie-broken by code point, never HashMap iteration order).
+- Word matches are emitted through the **output forest** (`outputWordIndexes` / `outputParentPositions`): `outputPos >= 0` iff the state or a failure ancestor ends a word (this is also `containsAny`'s short-circuit), and the parent chain emits own word first, then failure-chain words. Forest entries reference forest positions, not state ids, so relocation leaves them untouched.
+- Folding is strictly 1 `Char` → 1 `Char`, which is what makes `Match.range` exact original-text indices (start = end − word length) with no index remapping. Never introduce a length-changing fold.
+- The automaton is fully built in the constructor; instances are deeply immutable afterwards and safe for concurrent reads. There is no dynamic `add` — this is a deliberate design difference from RegexpTrie's mutable builder.
 - `findAll` (leftmost-longest) is post-processing over the standard automaton output: sort by (start asc, end desc), then one greedy pass. A streaming approach is incorrect with the standard automaton because matches arrive ordered by end position (`{bc, abcd}` on `"abcd"` is the counterexample, pinned by a test).
-- `findOverlapping` sorts by (start asc, end asc); both orderings are documented API guarantees and independent of `HashMap` iteration order.
+- `findOverlapping` sorts by (start asc, end asc); both orderings are documented API guarantees.
+- `benchmark/.../LegacyAhoCorasick.kt` is a deliberate frozen copy of the v1 HashMap-trie implementation (case folding stripped); don't "fix" or modernize it.

@@ -93,13 +93,16 @@ instance instead (for incremental building, collect words first or use `AhoCoras
 
 ## Benchmark
 
-Scan time is essentially flat in the dictionary size — for a 10,000-word list, `findAll` is
-**~600× faster on the JVM, ~800× on Wasm and ~440× on Kotlin/Native** than a naive
-`word1|word2|...` regex alternation, and **3–10× faster** than the trie-optimized regex from
-[kotlin-regexp-trie](https://github.com/be-hase/kotlin-regexp-trie). The exception is Kotlin/JS,
-where V8's regex engine beats this pure-Kotlin automaton at every size tested — on JS prefer
-kotlin-regexp-trie for raw scan speed. See [benchmark/RESULTS.md](benchmark/RESULTS.md) for full
-results and methodology.
+The scan engine is a compact double-array automaton (the
+[daachorse](https://github.com/daac-tools/daachorse) charwise layout) — transitions are two
+`IntArray` reads, no hashing, no boxing. Scan time is essentially flat in the dictionary size:
+for a 10,000-word list, `findAll` is **~1200× faster on the JVM and Wasm, ~570× on
+Kotlin/Native** than a naive `word1|word2|...` regex alternation, and **~5–13× faster** than the
+trie-optimized regex from [kotlin-regexp-trie](https://github.com/be-hase/kotlin-regexp-trie).
+The exception is Kotlin/JS, where V8's regex engine still wins on raw scan speed (the
+double-array engine is within ~2–3.5× of it, versus ~5–13× for the previous HashMap-trie
+engine) — on JS prefer kotlin-regexp-trie when scan speed is all that matters. See
+[benchmark/RESULTS.md](benchmark/RESULTS.md) for full results and methodology.
 
 ## Supported platforms
 
@@ -127,7 +130,8 @@ The algorithm is from Alfred V. Aho and Margaret J. Corasick,
 - [daachorse](https://github.com/daac-tools/daachorse) (Rust) — a double-array Aho-Corasick
   automaton ("Engineering faster double-array Aho-Corasick automata", Kanda et al., 2023), itself
   the latest step in the double-array trie lineage (Aoe 1989 → ChaSen → MeCab/Darts →
-  darts-clone). A future version of this library may adopt the double-array layout.
+  darts-clone). This library's engine is a pure-Kotlin take on its charwise variant (code-point
+  alphabet mapped to frequency-ranked ids, XOR transitions, output forest).
 
 ## License
 
