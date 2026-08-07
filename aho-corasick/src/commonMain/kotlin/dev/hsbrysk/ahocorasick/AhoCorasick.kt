@@ -5,7 +5,10 @@ package dev.hsbrysk.ahocorasick
  * [Aho-Corasick algorithm](https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm)
  * (a trie with failure and output links), so the scan cost is proportional to the text length
  * plus the number of occurrences (all of them, including overlapping ones) — independent of the
- * dictionary size.
+ * dictionary size. Texts in which the dictionary's rarest characters are sparse are scanned even
+ * faster: an internal prefilter locates those characters with [String.indexOf] and skips the
+ * stretches that cannot contain a match. It disables itself when it does not pay off and never
+ * changes results.
  *
  * The automaton is fully built in the constructor and instances are deeply immutable afterwards,
  * so a single instance can be shared and used concurrently from multiple threads. Words cannot be
@@ -39,6 +42,7 @@ public class AhoCorasick public constructor(
     private val automaton: CompactAutomaton
     private val storedWords: List<String>
     private val storedWordLengths: IntArray
+    private val prefilter: Prefilter?
 
     init {
         // Materialized because construction is two passes (code point frequencies, then the
@@ -47,6 +51,7 @@ public class AhoCorasick public constructor(
         automaton = built.automaton
         storedWords = built.storedWords
         storedWordLengths = IntArray(storedWords.size) { storedWords[it].length }
+        prefilter = Prefilter.build(storedWords, caseFolding)
     }
 
     /**
@@ -87,8 +92,16 @@ public class AhoCorasick public constructor(
      * cheapest way to answer "does the text contain any of the words?".
      */
     public fun containsAny(text: String): Boolean {
-        var state = ROOT_STATE
         var index = 0
+        val prefilter = this.prefilter
+        if (prefilter != null) {
+            val resume = prefilterContains(prefilter, text)
+            if (resume == PREFILTER_FOUND) {
+                return true
+            }
+            index = resume
+        }
+        var state = ROOT_STATE
         while (index < text.length) {
             val codePoint = text.codePointAt(index)
             state = step(state, codePoint)
@@ -117,8 +130,12 @@ public class AhoCorasick public constructor(
 
     private fun collectMatches(text: String): MutableList<Match> {
         val matches = mutableListOf<Match>()
-        var state = ROOT_STATE
         var index = 0
+        val prefilter = this.prefilter
+        if (prefilter != null) {
+            index = prefilterCollect(prefilter, text, matches)
+        }
+        var state = ROOT_STATE
         while (index < text.length) {
             val codePoint = text.codePointAt(index)
             state = step(state, codePoint)
@@ -134,6 +151,78 @@ public class AhoCorasick public constructor(
             index = end
         }
         return matches
+    }
+
+    /**
+     * [collectMatches] with the rare-character prefilter: at the root state the scan jumps to
+     * just before the next occurrence of a required character (see [Prefilter] for why that is
+     * lossless). Returns the index the plain loop should resume at — [text].length when the text
+     * is exhausted, or the current position when the prefilter measured itself as ineffective on
+     * this text and turned itself off (always at the root state, so resuming is seamless).
+     */
+    private fun prefilterCollect(
+        prefilter: Prefilter,
+        text: String,
+        matches: MutableList<Match>,
+    ): Int {
+        val cursor = prefilter.newCursor()
+        var state = ROOT_STATE
+        var index = 0
+        while (index < text.length) {
+            if (state == ROOT_STATE) {
+                val next = cursor.advance(text, index)
+                if (next == Prefilter.DISABLE) {
+                    return index
+                }
+                index = next
+                if (index >= text.length) {
+                    break
+                }
+            }
+            val codePoint = text.codePointAt(index)
+            state = step(state, codePoint)
+            val end = index + charCount(codePoint)
+            var outputPos = automaton.outputPosOf(state)
+            while (outputPos >= 0) {
+                val wordIndex = automaton.outputWordIndexes[outputPos]
+                matches.add(Match(storedWords[wordIndex], (end - storedWordLengths[wordIndex]) until end))
+                outputPos = automaton.outputParentPositions[outputPos]
+            }
+            index = end
+        }
+        return text.length
+    }
+
+    /**
+     * [containsAny] with the rare-character prefilter; same contract as [prefilterCollect],
+     * except a match short-circuits with [PREFILTER_FOUND].
+     */
+    private fun prefilterContains(
+        prefilter: Prefilter,
+        text: String,
+    ): Int {
+        val cursor = prefilter.newCursor()
+        var state = ROOT_STATE
+        var index = 0
+        while (index < text.length) {
+            if (state == ROOT_STATE) {
+                val next = cursor.advance(text, index)
+                if (next == Prefilter.DISABLE) {
+                    return index
+                }
+                index = next
+                if (index >= text.length) {
+                    break
+                }
+            }
+            val codePoint = text.codePointAt(index)
+            state = step(state, codePoint)
+            if (automaton.outputPosOf(state) >= 0) {
+                return PREFILTER_FOUND
+            }
+            index += charCount(codePoint)
+        }
+        return text.length
     }
 
     /**
@@ -191,3 +280,6 @@ public class AhoCorasick public constructor(
  */
 public fun buildAhoCorasick(block: AhoCorasick.Builder.() -> Unit): AhoCorasick =
     AhoCorasick.Builder().apply(block).build()
+
+/** Sentinel of [AhoCorasick.prefilterContains]: a match was found. Distinct from any index. */
+private const val PREFILTER_FOUND = -1
