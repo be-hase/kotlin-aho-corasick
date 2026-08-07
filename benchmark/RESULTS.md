@@ -4,14 +4,22 @@ Comparison of scanning a text for a keyword list four ways: a naive `word1|word2
 alternation, the trie-optimized regex produced by
 [kotlin-regexp-trie](https://github.com/be-hase/kotlin-regexp-trie), `AhoCorasick.findAll`,
 and the previous-generation implementation of this library
-([kotlinx-benchmark](https://github.com/Kotlin/kotlinx-benchmark)). Raw JSON reports live in
+([kotlinx-benchmark](https://github.com/Kotlin/kotlinx-benchmark)), in two scenarios: a
+**dense** text (~50% keyword tokens) and a **sparse** one (~2% keyword tokens; see the
+[sparse section](#sparse-match-scan-v3-rare-character-prefilter)). Raw JSON reports live in
 [`results/`](results/).
 
 Engine naming used throughout this document — these are internal engine generations, not
 release version numbers:
 
-- **v2** — the current engine: a compact double-array automaton (`IntArray`-based, daachorse
-  charwise layout). This is what `AhoCorasick` ships with today.
+- **v3** — the current engine: v2 plus a **rare-character prefilter** (`Prefilter.kt`) that
+  locates each word's rarest character with native (SIMD) `String.indexOf` and skips text that
+  cannot contain a match, automatically disabling itself when candidates are dense. This is what
+  `AhoCorasick` ships with today. The prefilter only changes the *sparse-match* regime; on the
+  dense benchmark below it turns itself off, so the v2 rows remain representative of v3
+  (verified with a same-conditions A/B).
+- **v2** — a compact double-array automaton (`IntArray`-based, daachorse charwise layout);
+  still the scan core of v3.
 - **v1** — the original engine: a `HashMap`-keyed node trie, shipped in release 0.0.1 and since
   replaced. It is kept frozen as
   [`LegacyAhoCorasick`](src/commonMain/kotlin/dev/hsbrysk/ahocorasick/benchmark/LegacyAhoCorasick.kt)
@@ -25,7 +33,7 @@ release version numbers:
 - Kotlin: 2.4.10, kotlinx-benchmark 0.4.17 (JMH 1.37 on JVM), regexp-trie 0.0.1
 - Config: 5 warmups + 5 iterations × 1 s, average time (ms/op), lower is better
 
-## Setup
+## Setup (dense scenario)
 
 Deterministic (fixed seed): a vocabulary of syllable-based pseudo-words (2–5 syllables, so words
 naturally share prefixes like real dictionaries), of which `wordCount` words become the keyword
@@ -87,11 +95,62 @@ is built longest-first), so they do the same work. See
   avoids the per-node `HashMap` allocations that dominated v1 builds. On the JVM, v2 build cost is within ~7% of v1 (4.1 vs 3.9 ms at 10,000 words).
   Build once and reuse the instance (it is immutable and thread-safe).
 
+## Sparse-match scan (v3 rare-character prefilter)
+
+The tables above are the **dense** scenario (~50% of text tokens are keywords), where the
+prefilter deliberately stands down. This section measures the opposite — and in practice more
+common — regime: a long text in which keywords are rare (~2% of tokens) and every keyword
+carries a character (`k`) that never occurs in the surrounding text, the workload class a
+rare-character prefilter targets (banned words with uncommon kanji, product codes, brand names
+in prose, …). See
+[`SparseMatchBenchmark.kt`](src/commonMain/kotlin/dev/hsbrysk/ahocorasick/benchmark/SparseMatchBenchmark.kt):
+5,000 tokens (~45 KB, 5× the dense text), one planted keyword every 50 tokens, fixed seed.
+
+- Date: 2026-08-07 (raw JSON: [`results/2026-08-07-v3-prefilter/`](results/2026-08-07-v3-prefilter/));
+  same machine/toolchain as above. **Absolute times in this session run higher than the v2
+  session above** (power/thermal state), so compare only within a session — the within-run
+  ratios are the point.
+
+### findAll on the sparse text (ms/op)
+
+| Target | wordCount | naive alternation | regexp-trie | AhoCorasick (v3) | v3 vs naive | v3 vs regexp-trie |
+|---|---:|---:|---:|---:|---:|---:|
+| jvm | 100 | 20.966 ± 3.995 | 3.443 ± 0.353 | 0.028 ± 0.006 | **~750×** | **123×** |
+| jvm | 1000 | 201.257 ± 36.580 | 4.482 ± 0.619 | 0.032 ± 0.011 | **~6,300×** | **140×** |
+| jvm | 10000 | 2503.302 ± 323.267 | 7.226 ± 1.110 | 0.043 ± 0.010 | **~58,000×** | **168×** |
+| js (Node) | 100 | 0.228 ± 0.022 | 0.214 ± 0.013 | 0.055 ± 0.004 | **4.1×** | **3.9×** |
+| js (Node) | 1000 | 0.288 ± 0.011 | 0.284 ± 0.011 | 0.070 ± 0.003 | **4.1×** | **4.1×** |
+| js (Node) | 10000 | 1.451 ± 0.034 | 1.394 ± 0.020 | 0.099 ± 0.002 | **14.7×** | **14.1×** |
+| wasmJs (Node) | 100 | 128.682 ± 7.560 | 14.752 ± 3.647 | 0.124 ± 0.001 | **~1,000×** | **119×** |
+| wasmJs (Node) | 1000 | 2175.338 ± 315.586 | 12.338 ± 0.810 | 0.151 ± 0.004 | **~14,000×** | **82×** |
+| wasmJs (Node) | 10000 | 13005.530 ± 414.937 | 17.602 ± 0.477 | 0.183 ± 0.005 | **~71,000×** | **96×** |
+| macosArm64 | 100 | 78.220 ± 2.760 | 10.109 ± 0.438 | 0.074 ± 0.003 | **~1,100×** | **137×** |
+| macosArm64 | 1000 | 990.744 ± 195.354 | 13.223 ± 0.533 | 0.106 ± 0.004 | **~9,300×** | **125×** |
+| macosArm64 | 10000 | 7915.360 ± 328.231 | 19.854 ± 0.993 | 0.182 ± 0.008 | **~43,000×** | **109×** |
+
+### Observations
+
+- **Kotlin/JS finally beats V8's compiled regex — by 4.1–14.7×.** This was the point of the
+  prefilter: the candidate search runs on `String.indexOf`, which V8 executes as SIMD memchr,
+  so the JS engine's raw-scan advantage no longer applies to the skipped stretches. (On the
+  dense benchmark V8 regex still wins by ~3–4×; the prefilter cannot help where matches are
+  everywhere, and stands down.)
+- On the other targets the sparse scan is **82–168× faster than the regexp-trie regex** and
+  three to five orders of magnitude faster than the naive alternation, while staying essentially
+  flat in both dictionary size and (per byte) text length.
+- Against the same engine with the prefilter disabled (same-conditions A/B on this workload),
+  the prefilter itself is worth **~5–6× on the JVM and ~6–11× on JS**.
+- The same session re-ran the dense benchmark as a regression check: at 10,000 words v3 scans
+  0.213 (jvm) / 0.794 (js) / 0.835 (wasmJs) / 1.582 (macosArm64) ms/op vs v1's
+  0.357 / 1.812 / 1.487 / 2.194 — the same v2-era ratios, i.e. the prefilter's auto-disable
+  leaves dense scans unchanged (raw JSON in the same results directory).
+
 ## Linux x64 (GitHub Actions ubuntu-latest)
 
 `linuxX64` cannot run on the Apple Silicon development machine, so it is measured on a GitHub
 Actions runner via the manual `benchmark.yml` workflow (jvm/js/wasmJs are re-run on the same
-runner for a self-consistent set). Absolute times are **not comparable** to the Apple M4 tables
+runner for a self-consistent set). This section is still the **v2-engine** run and predates the
+sparse benchmark; re-run the workflow after the v3 prefilter lands to refresh it. Absolute times are **not comparable** to the Apple M4 tables
 above — shared runners are slower and noisier — but the within-run ratios are the point and they
 confirm the same picture. Raw JSON:
 [`results/2026-08-07-linux-ci-v2/`](results/2026-08-07-linux-ci-v2/) (the pre-rewrite v1-only
@@ -146,6 +205,10 @@ from the M4 numbers: on this runner's JVM, v2 *construction* is ~1.5× slower th
 
 # Individual targets
 ./gradlew :benchmark:jvmBenchmark :benchmark:jsBenchmark :benchmark:wasmJsBenchmark :benchmark:macosArm64Benchmark
+
+# Focused loops: only the sparse scenario, or only the dense AhoCorasick scan/build
+./gradlew :benchmark:jvmSparseBenchmark :benchmark:jsSparseBenchmark
+./gradlew :benchmark:jvmDenseBenchmark :benchmark:jsDenseBenchmark
 ```
 
 JSON reports are written to `benchmark/build/reports/benchmarks/main/<timestamp>/`.

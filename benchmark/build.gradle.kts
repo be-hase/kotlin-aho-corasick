@@ -66,5 +66,25 @@ benchmark {
             mode = "avgt"
             outputTimeUnit = "ms"
         }
+        // Only the dense AhoCorasick scans/builds — a regression check for prefilter changes.
+        register("dense") {
+            include("benchmark\\.AhoCorasickBenchmark\\.ahoCorasick")
+            warmups = 5
+            iterations = 5
+            iterationTime = 1
+            iterationTimeUnit = "s"
+            mode = "avgt"
+            outputTimeUnit = "ms"
+        }
+        // Only the sparse-match benchmarks — a faster loop for prefilter A/B runs.
+        register("sparse") {
+            include("SparseMatchBenchmark")
+            warmups = 5
+            iterations = 5
+            iterationTime = 1
+            iterationTimeUnit = "s"
+            mode = "avgt"
+            outputTimeUnit = "ms"
+        }
     }
 }
