@@ -69,6 +69,47 @@ alternation is built longest-first), so they do the same work. See
 - Building the automaton for 10,000 words costs 4–20 ms; build once and reuse the instance (it is
   immutable and thread-safe).
 
+## Linux x64 (GitHub Actions ubuntu-latest)
+
+`linuxX64` cannot run on the Apple Silicon development machine, so it is measured on a GitHub
+Actions runner via the manual `benchmark.yml` workflow (jvm/js/wasmJs are re-run on the same
+runner for a self-consistent set). Absolute times are **not comparable** to the Apple M4 tables
+above — shared runners are slower and noisier — but the within-run ratios are the point and they
+confirm the same picture. Raw JSON: [`results/2026-08-07-linux-ci/`](results/2026-08-07-linux-ci/).
+
+Environment: AMD EPYC 7763 (4 vCPU), 16 GB RAM, ubuntu-latest (ubuntu24 image 20260720.247.2),
+2026-08-07; otherwise identical config.
+
+### findAll (ms/op)
+
+| Target | wordCount | naive alternation | regexp-trie | AhoCorasick | AC vs naive | AC vs regexp-trie |
+|---|---:|---:|---:|---:|---:|---:|
+| jvm | 100 | 1.978 ± 0.013 | 0.422 ± 0.009 | 0.106 ± 0.005 | **19×** | **4.0×** |
+| jvm | 1000 | 19.407 ± 0.105 | 0.827 ± 0.027 | 0.201 ± 0.007 | **97×** | **4.1×** |
+| jvm | 10000 | 208.303 ± 0.878 | 2.120 ± 0.030 | 0.379 ± 0.007 | **549×** | **5.6×** |
+| js (Node) | 100 | 0.056 ± 0.000 | 0.057 ± 0.003 | 0.544 ± 0.004 | 0.10× | 0.10× |
+| js (Node) | 1000 | 0.088 ± 0.000 | 0.091 ± 0.001 | 1.012 ± 0.013 | 0.09× | 0.09× |
+| js (Node) | 10000 | 0.488 ± 0.003 | 0.361 ± 0.001 | 1.723 ± 0.019 | 0.28× | 0.21× |
+| wasmJs (Node) | 100 | 13.326 ± 0.008 | 1.042 ± 0.003 | 0.335 ± 0.001 | **40×** | **3.1×** |
+| wasmJs (Node) | 1000 | 135.484 ± 5.580 | 1.791 ± 0.034 | 0.671 ± 0.007 | **202×** | **2.7×** |
+| wasmJs (Node) | 10000 | 1081.195 ± 1.579 | 4.870 ± 0.083 | 1.536 ± 0.078 | **704×** | **3.2×** |
+| linuxX64 | 100 | 8.821 ± 0.026 | 1.269 ± 0.002 | 0.354 ± 0.002 | **25×** | **3.6×** |
+| linuxX64 | 1000 | 84.319 ± 0.292 | 2.226 ± 0.007 | 0.606 ± 0.005 | **139×** | **3.7×** |
+| linuxX64 | 10000 | 669.746 ± 0.573 | 15.742 ± 0.455 | 1.524 ± 0.016 | **440×** | **10×** |
+
+### Automaton build cost: `AhoCorasick(words)` (ms/op)
+
+| Target | wordCount = 100 | wordCount = 1000 | wordCount = 10000 |
+|---|---:|---:|---:|
+| jvm | 0.033 ± 0.000 | 0.456 ± 0.004 | 5.544 ± 0.400 |
+| js (Node) | 0.222 ± 0.021 | 2.439 ± 0.104 | 46.372 ± 5.181 |
+| wasmJs (Node) | 0.090 ± 0.003 | 3.290 ± 0.157 | 47.076 ± 10.590 |
+| linuxX64 | 0.107 ± 0.000 | 1.655 ± 0.055 | 26.597 ± 0.319 |
+
+Linux/Native behaves exactly like macOS/Native: Aho-Corasick beats the naive alternation by
+**~440× at 10,000 words** and the trie-optimized regex by up to **~10×**; Kotlin/JS on Linux
+still favors V8's regex engine at every size.
+
 ## Reproducing
 
 ```bash
@@ -80,3 +121,7 @@ alternation is built longest-first), so they do the same work. See
 ```
 
 JSON reports are written to `benchmark/build/reports/benchmarks/main/<timestamp>/`.
+
+The Linux x64 numbers come from the manual `benchmark.yml` workflow
+(`gh workflow run benchmark.yml`), which uploads the JSON reports plus runner info as an
+artifact.
