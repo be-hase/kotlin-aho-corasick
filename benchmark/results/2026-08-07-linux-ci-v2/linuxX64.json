@@ -1,0 +1,848 @@
+[
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.ahoCorasickBuild",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "100"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 0.10157630255945185,
+       "scoreError": 0.0010355641906253155,
+       "scoreConfidence" : [
+          0.10054073836882654,
+          0.10261186675007716
+       ],
+       "scorePercentiles" : {
+          "0.00" : 0.100090505038291,
+          "25.00" : 0.10033767487908102,
+          "50.00" : 0.10200697108020959,
+          "75.00" : 0.10259959597944376,
+          "90.00" : 0.10283701733172108,
+          "99.00" : 0.10283701733172108,
+          "99.90" : 0.10283701733172108,
+          "99.99" : 0.10283701733172108,
+          "100.00" : 0.10283701733172108
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             0.100090505038291,
+             0.10200697108020959,
+             0.10236217462716646,
+             0.10283701733172108,
+             0.10058484471987102
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.ahoCorasickBuild",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "1000"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 1.211650167436209,
+       "scoreError": 0.003969512860364455,
+       "scoreConfidence" : [
+          1.2076806545758445,
+          1.2156196802965735
+       ],
+       "scorePercentiles" : {
+          "0.00" : 1.2049628918590523,
+          "25.00" : 1.2079979258809233,
+          "50.00" : 1.211581503037667,
+          "75.00" : 1.2153367411907654,
+          "90.00" : 1.2175443110571083,
+          "99.00" : 1.2175443110571083,
+          "99.90" : 1.2175443110571083,
+          "99.99" : 1.2175443110571083,
+          "100.00" : 1.2175443110571083
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             1.2175443110571083,
+             1.2110329599027945,
+             1.211581503037667,
+             1.2049628918590523,
+             1.2131291713244228
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.ahoCorasickBuild",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "10000"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 17.589639668965518,
+       "scoreError": 0.08900728251190941,
+       "scoreConfidence" : [
+          17.50063238645361,
+          17.678646951477425
+       ],
+       "scorePercentiles" : {
+          "0.00" : 17.410679586206896,
+          "25.00" : 17.509867060344828,
+          "50.00" : 17.633619672413793,
+          "75.00" : 17.64742227586207,
+          "90.00" : 17.658128034482758,
+          "99.00" : 17.658128034482758,
+          "99.90" : 17.658128034482758,
+          "99.99" : 17.658128034482758,
+          "100.00" : 17.658128034482758
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             17.658128034482758,
+             17.636716517241382,
+             17.410679586206896,
+             17.60905453448276,
+             17.633619672413793
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.ahoCorasickFindAll",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "100"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 0.21274338848076507,
+       "scoreError": 9.262729797971705E-4,
+       "scoreConfidence" : [
+          0.2118171155009679,
+          0.21366966146056224
+       ],
+       "scorePercentiles" : {
+          "0.00" : 0.21104319517496195,
+          "25.00" : 0.21182459791349706,
+          "50.00" : 0.2129355148880678,
+          "75.00" : 0.21356611584438168,
+          "90.00" : 0.2138547222342969,
+          "99.00" : 0.2138547222342969,
+          "99.90" : 0.2138547222342969,
+          "99.99" : 0.2138547222342969,
+          "100.00" : 0.2138547222342969
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             0.2138547222342969,
+             0.21327750945446644,
+             0.2129355148880678,
+             0.21260600065203217,
+             0.21104319517496195
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.ahoCorasickFindAll",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "1000"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 0.3690394865433443,
+       "scoreError": 0.0026814573521481222,
+       "scoreConfidence" : [
+          0.36635802919119614,
+          0.37172094389549243
+       ],
+       "scorePercentiles" : {
+          "0.00" : 0.36558684330794344,
+          "25.00" : 0.3666618619876678,
+          "50.00" : 0.36892194305404424,
+          "75.00" : 0.3714758828436706,
+          "90.00" : 0.3739182212549873,
+          "99.00" : 0.3739182212549873,
+          "99.90" : 0.3739182212549873,
+          "99.99" : 0.3739182212549873,
+          "100.00" : 0.3739182212549873
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             0.36773688066739213,
+             0.36558684330794344,
+             0.369033544432354,
+             0.3739182212549873,
+             0.36892194305404424
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.ahoCorasickFindAll",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "10000"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 1.241987686419753,
+       "scoreError": 0.012614565241878269,
+       "scoreConfidence" : [
+          1.2293731211778747,
+          1.2546022516616313
+       ],
+       "scorePercentiles" : {
+          "0.00" : 1.229100360493827,
+          "25.00" : 1.230582825308642,
+          "50.00" : 1.241184948148148,
+          "75.00" : 1.2537939166666665,
+          "90.00" : 1.2657205037037036,
+          "99.00" : 1.2657205037037036,
+          "99.90" : 1.2657205037037036,
+          "99.99" : 1.2657205037037036,
+          "100.00" : 1.2657205037037036
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             1.2320652901234568,
+             1.241184948148148,
+             1.2657205037037036,
+             1.2418673296296296,
+             1.229100360493827
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.legacyBuild",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "100"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 0.10966740796344647,
+       "scoreError": 5.568030633256935E-4,
+       "scoreConfidence" : [
+          0.10911060490012078,
+          0.11022421102677216
+       ],
+       "scorePercentiles" : {
+          "0.00" : 0.10915147704525674,
+          "25.00" : 0.10928970991079198,
+          "50.00" : 0.10945968570496084,
+          "75.00" : 0.11014896714534378,
+          "90.00" : 0.11077490241514361,
+          "99.00" : 0.11077490241514361,
+          "99.90" : 0.11077490241514361,
+          "99.99" : 0.11077490241514361,
+          "100.00" : 0.11077490241514361
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             0.10942794277632724,
+             0.10945968570496084,
+             0.11077490241514361,
+             0.10915147704525674,
+             0.10952303187554395
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.legacyBuild",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "1000"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 1.627009105977383,
+       "scoreError": 0.0077662983753004605,
+       "scoreConfidence" : [
+          1.6192428076020826,
+          1.6347754043526834
+       ],
+       "scorePercentiles" : {
+          "0.00" : 1.6128029095315026,
+          "25.00" : 1.618305147819063,
+          "50.00" : 1.6320311324717287,
+          "75.00" : 1.63320205088853,
+          "90.00" : 1.6332992859450728,
+          "99.00" : 1.6332992859450728,
+          "99.90" : 1.6332992859450728,
+          "99.99" : 1.6332992859450728,
+          "100.00" : 1.6332992859450728
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             1.6331048158319872,
+             1.6332992859450728,
+             1.6128029095315026,
+             1.6238073861066236,
+             1.6320311324717287
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.legacyBuild",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "10000"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 27.695401136842104,
+       "scoreError": 0.5945761146836094,
+       "scoreConfidence" : [
+          27.100825022158496,
+          28.289977251525713
+       ],
+       "scorePercentiles" : {
+          "0.00" : 27.149694131578947,
+          "25.00" : 27.16366402631579,
+          "50.00" : 27.305767763157892,
+          "75.00" : 28.421954934210525,
+          "90.00" : 28.605030105263157,
+          "99.00" : 28.605030105263157,
+          "99.90" : 28.605030105263157,
+          "99.99" : 28.605030105263157,
+          "100.00" : 28.605030105263157
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             27.305767763157892,
+             27.149694131578947,
+             28.238879763157893,
+             28.605030105263157,
+             27.17763392105263
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.legacyFindAll",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "100"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 0.3543789159616068,
+       "scoreError": 0.003016748153393964,
+       "scoreConfidence" : [
+          0.35136216780821283,
+          0.3573956641150008
+       ],
+       "scorePercentiles" : {
+          "0.00" : 0.34854630394596514,
+          "25.00" : 0.3514382294703164,
+          "50.00" : 0.35524737931034484,
+          "75.00" : 0.3568853707785283,
+          "90.00" : 0.35702590259509426,
+          "99.00" : 0.35702590259509426,
+          "99.90" : 0.35702590259509426,
+          "99.99" : 0.35702590259509426,
+          "100.00" : 0.35702590259509426
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             0.3567448389619623,
+             0.35702590259509426,
+             0.34854630394596514,
+             0.35433015499466763,
+             0.35524737931034484
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.legacyFindAll",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "1000"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 0.5895693396470588,
+       "scoreError": 0.0046542716843373305,
+       "scoreConfidence" : [
+          0.5849150679627215,
+          0.5942236113313961
+       ],
+       "scorePercentiles" : {
+          "0.00" : 0.5818398470588235,
+          "25.00" : 0.5848536211764706,
+          "50.00" : 0.5891139323529412,
+          "75.00" : 0.5945127617647059,
+          "90.00" : 0.5952384652941177,
+          "99.00" : 0.5952384652941177,
+          "99.90" : 0.5952384652941177,
+          "99.99" : 0.5952384652941177,
+          "100.00" : 0.5952384652941177
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             0.5952384652941177,
+             0.5891139323529412,
+             0.5878673952941176,
+             0.5937870582352941,
+             0.5818398470588235
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.legacyFindAll",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "10000"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 1.559033159163987,
+       "scoreError": 0.010898607094725413,
+       "scoreConfidence" : [
+          1.5481345520692615,
+          1.5699317662587124
+       ],
+       "scorePercentiles" : {
+          "0.00" : 1.5442208601286174,
+          "25.00" : 1.5489796045016075,
+          "50.00" : 1.557415655948553,
+          "75.00" : 1.5698954654340835,
+          "90.00" : 1.578030308681672,
+          "99.00" : 1.578030308681672,
+          "99.90" : 1.578030308681672,
+          "99.99" : 1.578030308681672,
+          "100.00" : 1.578030308681672
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             1.557415655948553,
+             1.553738348874598,
+             1.5617606221864953,
+             1.5442208601286174,
+             1.578030308681672
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.naiveAlternationFindAll",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "100"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 9.029471185714288,
+       "scoreError": 0.032168784680495215,
+       "scoreConfidence" : [
+          8.997302401033792,
+          9.061639970394783
+       ],
+       "scorePercentiles" : {
+          "0.00" : 8.9999123125,
+          "25.00" : 9.0056603125,
+          "50.00" : 9.018508580357144,
+          "75.00" : 9.058763361607141,
+          "90.00" : 9.093050839285715,
+          "99.00" : 9.093050839285715,
+          "99.90" : 9.093050839285715,
+          "99.99" : 9.093050839285715,
+          "100.00" : 9.093050839285715
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             8.9999123125,
+             9.093050839285715,
+             9.0114083125,
+             9.018508580357144,
+             9.02447588392857
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.naiveAlternationFindAll",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "1000"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 85.92288676666666,
+       "scoreError": 0.062204269145078414,
+       "scoreConfidence" : [
+          85.86068249752158,
+          85.98509103581175
+       ],
+       "scorePercentiles" : {
+          "0.00" : 85.81461916666667,
+          "25.00" : 85.85630908333334,
+          "50.00" : 85.94876983333333,
+          "75.00" : 85.97652291666668,
+          "90.00" : 86.00278791666668,
+          "99.00" : 86.00278791666668,
+          "99.90" : 86.00278791666668,
+          "99.99" : 86.00278791666668,
+          "100.00" : 86.00278791666668
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             86.00278791666668,
+             85.897999,
+             85.95025791666667,
+             85.94876983333333,
+             85.81461916666667
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.naiveAlternationFindAll",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "10000"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 684.7104041999999,
+       "scoreError": 2.3251310567768377,
+       "scoreConfidence" : [
+          682.385273143223,
+          687.0355352567767
+       ],
+       "scorePercentiles" : {
+          "0.00" : 680.9089875,
+          "25.00" : 681.98201575,
+          "50.00" : 685.7481465,
+          "75.00" : 686.9199215000001,
+          "90.00" : 687.158579,
+          "99.00" : 687.158579,
+          "99.90" : 687.158579,
+          "99.99" : 687.158579,
+          "100.00" : 687.158579
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             683.055044,
+             680.9089875,
+             685.7481465,
+             686.681264,
+             687.158579
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.regexpTrieFindAll",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "100"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 1.2362164259259258,
+       "scoreError": 0.008368569404274035,
+       "scoreConfidence" : [
+          1.2278478565216517,
+          1.2445849953302
+       ],
+       "scorePercentiles" : {
+          "0.00" : 1.2283416012345678,
+          "25.00" : 1.2301429358024691,
+          "50.00" : 1.2333729197530865,
+          "75.00" : 1.2437116691358026,
+          "90.00" : 1.2527641827160494,
+          "99.00" : 1.2527641827160494,
+          "99.90" : 1.2527641827160494,
+          "99.99" : 1.2527641827160494,
+          "100.00" : 1.2527641827160494
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             1.2346591555555555,
+             1.2283416012345678,
+             1.2527641827160494,
+             1.2319442703703705,
+             1.2333729197530865
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.regexpTrieFindAll",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "1000"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 2.1798142980477224,
+       "scoreError": 0.015042867352436633,
+       "scoreConfidence" : [
+          2.1647714306952857,
+          2.194857165400159
+       ],
+       "scorePercentiles" : {
+          "0.00" : 2.164765273318872,
+          "25.00" : 2.1666346117136657,
+          "50.00" : 2.176043826464208,
+          "75.00" : 2.1948792201735356,
+          "90.00" : 2.208212906724512,
+          "99.00" : 2.208212906724512,
+          "99.90" : 2.208212906724512,
+          "99.99" : 2.208212906724512,
+          "100.00" : 2.208212906724512
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             2.1815455336225598,
+             2.164765273318872,
+             2.1685039501084598,
+             2.208212906724512,
+             2.176043826464208
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  },
+  {
+    "benchmark" : "dev.hsbrysk.ahocorasick.benchmark.AhoCorasickBenchmark.regexpTrieFindAll",
+    "mode" : "avgt",
+    "compilationMode": "Release",
+    "configurationName" : "main",
+    "warmupIterations" : 5,
+    "warmupTime" : "1 sec",
+    "measurementIterations" : 5,
+    "measurementTime" : "1 sec",
+    "params" : {
+          "wordCount" : "10000"
+    },
+    "advanced" : {
+          
+    },
+    "primaryMetric" : {
+       "score": 16.07578251746032,
+       "scoreError": 0.1440065919320331,
+       "scoreConfidence" : [
+          15.931775925528285,
+          16.21978910939235
+       ],
+       "scorePercentiles" : {
+          "0.00" : 15.885741142857144,
+          "25.00" : 15.916082388888888,
+          "50.00" : 16.066400174603174,
+          "75.00" : 16.240173817460317,
+          "90.00" : 16.262292031746032,
+          "99.00" : 16.262292031746032,
+          "99.90" : 16.262292031746032,
+          "99.99" : 16.262292031746032,
+          "100.00" : 16.262292031746032
+       },
+       "scoreUnit" : "ms/op",
+       "rawData" : [
+           [
+             16.262292031746032,
+             15.885741142857144,
+             16.066400174603174,
+             16.2180556031746,
+             15.946423634920635
+           ]
+       ]
+    },
+    "secondaryMetrics" : {
+    }
+  }
+]
