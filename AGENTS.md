@@ -39,14 +39,19 @@ kotlin-aho-corasick is a Kotlin Multiplatform implementation of the Aho-Corasick
 
 # Benchmarks (kotlinx-benchmark; results are recorded in benchmark/RESULTS.md)
 ./gradlew :benchmark:jvmBenchmark :benchmark:jsBenchmark :benchmark:wasmJsBenchmark :benchmark:macosArm64Benchmark
+
+# Focused benchmark loops for prefilter work: only the sparse-match scenario, or only the dense
+# AhoCorasick scan/build (regression check). Same pattern for the other targets.
+./gradlew :benchmark:jvmSparseBenchmark :benchmark:jsSparseBenchmark
+./gradlew :benchmark:jvmDenseBenchmark :benchmark:jsDenseBenchmark
 ```
 
 ## Module Structure
 
 | Module | Description |
 |---|---|
-| `aho-corasick` | The library. `commonMain`: `AhoCorasick.kt` (public API) / `CaseFolding.kt` / `Match.kt`, plus the internal double-array engine `CompactAutomaton.kt` / `DoubleArrayBuilder.kt` / `Nfa.kt` / `CodeMapper.kt` / `CodePoints.kt`; tests in `commonTest` run on every target. |
-| `benchmark` | kotlinx-benchmark comparisons (naive regex alternation vs regexp-trie regex vs Aho-Corasick, plus the frozen v1 HashMap-trie copy `LegacyAhoCorasick`). Not published; declares only the targets it runs on (jvm/js/wasmJs/macosArm64/linuxX64). Results + methodology: `benchmark/RESULTS.md`, raw JSON in `benchmark/results/`. |
+| `aho-corasick` | The library. `commonMain`: `AhoCorasick.kt` (public API) / `CaseFolding.kt` / `Match.kt`, plus the internal double-array engine `CompactAutomaton.kt` / `DoubleArrayBuilder.kt` / `Nfa.kt` / `CodeMapper.kt` / `CodePoints.kt` and the scan accelerator `Prefilter.kt`; tests in `commonTest` run on every target. |
+| `benchmark` | kotlinx-benchmark comparisons (naive regex alternation vs regexp-trie regex vs Aho-Corasick, plus the frozen v1 HashMap-trie copy `LegacyAhoCorasick`). `AhoCorasickBenchmark` is the dense-match scenario (~50% keyword tokens), `SparseMatchBenchmark` the sparse one (~2% keyword tokens whose rare character is absent from the filler) — the regime the prefilter targets. Not published; declares only the targets it runs on (jvm/js/wasmJs/macosArm64/linuxX64). Results + methodology: `benchmark/RESULTS.md`, raw JSON in `benchmark/results/`. |
 | `build-logic` | Convention Gradle plugins shared across modules. |
 
 ## Build Conventions
@@ -73,4 +78,4 @@ kotlin-aho-corasick is a Kotlin Multiplatform implementation of the Aho-Corasick
 - The automaton is fully built in the constructor; instances are deeply immutable afterwards and safe for concurrent reads. There is no dynamic `add` — this is a deliberate design difference from RegexpTrie's mutable builder.
 - `findAll` (leftmost-longest) is post-processing over the standard automaton output: sort by (start asc, end desc), then one greedy pass. A streaming approach is incorrect with the standard automaton because matches arrive ordered by end position (`{bc, abcd}` on `"abcd"` is the counterexample, pinned by a test).
 - `findOverlapping` sorts by (start asc, end asc); both orderings are documented API guarantees.
-- `benchmark/.../LegacyAhoCorasick.kt` is a deliberate frozen copy of the v1 HashMap-trie implementation (case folding stripped); don't "fix" or modernize it.
+- Scans are accelerated by an internal **rare-character prefilter** (`Prefilter.kt`, in the spirit of the `RareBytes` prefilters of BurntSushi's aho-corasick crate): one folded rarest character per word (greedy union, capped at 8; words already containing a chosen character add nothing), expanded to every case-folding preimage the unfolded text may contain (e.g. `k` ← `k`/`K`/Kelvin sign U+212A, via a full BMP sweep under `UNICODE_SIMPLE`; capped at 16 search chars). Candidates are located with `String.indexOf(Char)`, which compiles to the platform's native (SIMD) memchr on the JVM and V8 — the whole point, so never replace it with a manual loop. The scan consults the prefilter **only at the root state** (non-root means a partial match is in progress) and jumps to `candidate - (maxWordLength - 1)`, stepped back one `Char` if that would split a surrogate pair. A per-scan `Cursor` (the `Prefilter` itself is immutable → concurrent reads stay safe) caches per-char positions plus the minimum candidate, and disables the prefilter mid-scan when less than half the scanned text was skipped (dense candidates), falling back to the plain loop seamlessly at the root. The prefilter must never change observable results — `PrefilterTest` pins oracle equivalence, the surrogate-pair jump edge, fold preimages, both disable paths, and that the prefilter actually engages.

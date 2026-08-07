@@ -95,14 +95,20 @@ instance instead (for incremental building, collect words first or use `AhoCoras
 
 The scan engine is a compact double-array automaton (the
 [daachorse](https://github.com/daac-tools/daachorse) charwise layout) — transitions are two
-`IntArray` reads, no hashing, no boxing. Scan time is essentially flat in the dictionary size:
-for a 10,000-word list, `findAll` is **~1200× faster on the JVM and Wasm, ~570× on
-Kotlin/Native** than a naive `word1|word2|...` regex alternation, and **~5–13× faster** than the
-trie-optimized regex from [kotlin-regexp-trie](https://github.com/be-hase/kotlin-regexp-trie).
-The exception is Kotlin/JS, where V8's regex engine still wins on raw scan speed (the
-double-array engine is within ~2–3.5× of it, versus ~5–13× for the previous HashMap-trie
-engine) — on JS prefer kotlin-regexp-trie when scan speed is all that matters. See
-[benchmark/RESULTS.md](benchmark/RESULTS.md) for full results and methodology.
+`IntArray` reads, no hashing, no boxing — fronted by a **rare-character prefilter**: each scan
+first locates the dictionary's rarest characters with `String.indexOf` (native SIMD memchr on
+the JVM and V8) and skips the stretches of text that cannot contain a match, automatically
+standing down on texts where that doesn't pay.
+
+Scan time is essentially flat in the dictionary size: on a dense-match text with a 10,000-word
+list, `findAll` is **~1200× faster on the JVM and Wasm, ~570× on Kotlin/Native** than a naive
+`word1|word2|...` regex alternation, and **~5–13× faster** than the trie-optimized regex from
+[kotlin-regexp-trie](https://github.com/be-hase/kotlin-regexp-trie). On sparse-match texts —
+filtering long documents for keywords that occur rarely, the typical real-world workload — the
+prefilter adds another ~5–10×: **~80–170× faster than the regexp-trie regex** on JVM, Wasm and
+Native, and on Kotlin/JS it overturns this library's one former loss, beating V8's compiled
+regex by **4–15×** (dense-match JS scans remain the one case where V8 still wins, by ~3–4×).
+See [benchmark/RESULTS.md](benchmark/RESULTS.md) for full results and methodology.
 
 ## Supported platforms
 
@@ -125,7 +131,9 @@ The algorithm is from Alfred V. Aho and Margaret J. Corasick,
 (CACM, 1975) — the algorithm behind `fgrep`. Implementations this library learned from:
 
 - [BurntSushi/aho-corasick](https://github.com/BurntSushi/aho-corasick) (Rust) — the design
-  reference for match semantics and the pragmatic take on case insensitivity
+  reference for match semantics, the pragmatic take on case insensitivity, and the rare-byte
+  prefilter idea (`RareBytes`) that this library's rare-character prefilter adapts to UTF-16
+  and case folding
 - [org.ahocorasick](https://github.com/robert-bor/aho-corasick) (Java) by Robert Bor
 - [daachorse](https://github.com/daac-tools/daachorse) (Rust) — a double-array Aho-Corasick
   automaton ("Engineering faster double-array Aho-Corasick automata", Kanda et al., 2023), itself
